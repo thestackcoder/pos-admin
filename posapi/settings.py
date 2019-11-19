@@ -81,27 +81,26 @@ WSGI_APPLICATION = 'posapi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db2',
-        'USER' : 'postgres',
-        'PASSWORD' :'1234',
-        'HOST' : 'localhost'
-
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'pos_db',
-#         'USER' : 'frienddoouser',
-#         'PASSWORD' :'GAL6615M13',
+#         'NAME': 'db2',
+#         'USER' : 'postgres',
+#         'PASSWORD' :'1234',
 #         'HOST' : 'localhost'
 
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'posdb2',
+        'USER' : 'frienddoouser',
+        'PASSWORD' :'GAL6615M13',
+        'HOST' : 'localhost'
+    }
+}
 
 
 

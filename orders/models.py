@@ -4,7 +4,7 @@ from items.models import Item
 
 class Order(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    #customer_id = models.ForeignKey(Customer, on_delete = models.CASCADE,)
+    customer = models.ForeignKey(Customer, on_delete = models.CASCADE,)
     user_id = models.ForeignKey(User, on_delete = models.CASCADE,)
     payment_method = models.CharField(max_length=50,null=True)
     # order_item_id = models.ForeignKey(Order_item, related_name='order', on_delete = models.CASCADE,)

@@ -6,9 +6,11 @@ from orders.models import Order,Order_detail,Order_item
 
 class Order_itemSeriaizer(serializers.ModelSerializer):
     item_name = serializers.CharField(source='item.name',required=False)
+    item_price = serializers.CharField(source='item.price',required=False)
+
     class Meta:
         model = Order_item
-        fields = ['id','item','item_name','quantity']
+        fields = ['id','item','item_name', 'item_price', 'quantity']
 
 
 class OrderSeriaizer(serializers.ModelSerializer):
@@ -16,7 +18,7 @@ class OrderSeriaizer(serializers.ModelSerializer):
     order_items = Order_itemSeriaizer(many=True)
     class Meta:
         model = Order
-        fields = ['id', 'datetime','user_id','user_name','payment_method','order_items']
+        fields = ['id', 'datetime','user_id','user_name', 'customer', 'payment_method','order_items']
 
     def create(self, validated_data):
         order_items = validated_data.pop('order_items')

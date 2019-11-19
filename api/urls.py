@@ -47,7 +47,7 @@ user_orders_router = ExtendedSimpleRouter()
 
 router = routers.DefaultRouter()
 router.register('users', actors.views.UserViewSet,base_name='users')
-# # router.register('customers', CustomerViewSet,base_name='customers')
+router.register('customers', CustomerViewSet,base_name='customers')
 router.register('items', items.views.ItemViewSet)
 router.register('categories',items.views.CategoryViewSet)
 router.register('favourite', items.views.FavouriteViewSet,base_name='favourite')
