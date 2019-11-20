@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
-from django.conf.urls.static import static 
+from django.conf.urls.static import static
 
 admin.site.site_header = "Smart POS - Administration"
 admin.site.site_title = "Smart POS"
@@ -14,7 +14,7 @@ urlpatterns = [
     path('api/v1/',include('api.urls')),
     # path('api/v1/',include('orders.urls')),
     path('api-auth/',include('rest_framework.urls')),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 if settings.DEBUG:
