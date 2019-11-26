@@ -1,0 +1,147 @@
+{% load i18n static %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dash.css">
+
+<!--Header-->
+<div id="header">
+    <div id="branding">
+    {% block branding %}
+    <h1><b>POS</b> Administration</h1>
+    {% endblock %}
+    </div>
+    {% block usertools %}
+    {% if has_permission %}
+    <div id="user-tools">
+        {% block welcome-msg %}
+            {% trans 'Welcome,' %}
+            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            /
+        {% endblock %}
+        {% block userlinks %}
+            {% if site_url %}
+                {% comment %} <a href="{{ site_url }}">{% trans 'View site' %}</a> / {% endcomment %}
+            {% endif %}
+            {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                {% endif %}
+            {% endif %}
+            {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+            {% endif %}
+            <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+        {% endblock %}
+    </div>
+    {% endif %}
+    {% endblock %}
+    {% block nav-global %}{% endblock %}
+</div>
+<!--End Header-->
+
+{% comment %} 
+{% block sidenav%}  
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/actors">Users</a>
+        <a href="/admin/items">Inventory</a>
+        <a href="/admin/orders">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+        <a href="/admin/reports">Reports</a>
+    </div>
+{% endblock %} {% endcomment %}
+
+{% block 'content'%}
+<div class="main" id="content-main">
+
+    <h1>{% trans 'Dashboard' %}</h1>
+
+    <h3>{% trans 'Users' %}: {{ user_count }}</h3>
+    <h3>{% trans 'Orders' %}: {{ order_count }}</h3>
+    <h3>{% trans 'Customers' %}: {{ customers_count }}</h3>
+
+    <h3>{% trans 'Total Sales' %}: {{ sales }} Rs</h3>
+
+    <h4>{% trans 'Item Menu List' %}</h4> 
+    <table> 
+        <tr><th>Item</th><th>Price</th></tr>
+        {% for i in menu %}
+        <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.price }} Rs</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <div class="module" id="recent-actions-module">
+            <h2>Notifications</h2>
+                {% load log %}
+                {% get_admin_log 10 as admin_log for_user user %}
+                {% if not admin_log %}
+                <p>None Avaialble</p>
+                {% else %}
+                <ul class="actionlist">
+                {% for entry in admin_log %}
+                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                    {% if entry.is_deletion or not entry.get_admin_url %}
+                        {{ entry.object_repr }}
+                    {% else %}
+                        <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                    {% endif %}
+                    <br>
+                    {% if entry.content_type %}
+                        <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                    {% else %}
+                        <span class="mini quiet">Unknown Content</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+    </div>
+
+    <div id="sales-chart">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "June",
+        "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    var d = new Date(); 
+    var m1 = monthNames[d.getMonth()-5];
+    var m2= monthNames[d.getMonth()-4];
+    var m3 = monthNames[d.getMonth()-3];
+    var m4 = monthNames[d.getMonth()-2];
+    var m5 = monthNames[d.getMonth()-1];
+    var m6 = monthNames[d.getMonth()];
+
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+        // The data for our dataset
+        data: {
+            labels: [m1, m2, m3, m4, m5, m6],
+            datasets: [{
+                label: 'Total Monthly Sales',
+                backgroundColor: '#1F4E95',
+                borderColor: '#f5dd5d',
+                data: [145, 256, 155, 367, 289, 453]
+            }],
+            
+        },
+
+        // Configuration options go here
+        options: {
+            
+        }
+    });
+</script>

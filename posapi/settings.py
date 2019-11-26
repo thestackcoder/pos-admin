@@ -176,3 +176,6 @@ REST_AUTH_SERIALIZERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
 }
+
+
+LOGOUT_REDIRECT_URL = '/admin/'

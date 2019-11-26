@@ -1,0 +1,7 @@
+
+{% if user.is_authenticated %}
+<h1>Reports</h1>
+{% else  %}
+<h1>You need to logged in first</h1>
+<a href="/admin/">Login</a>
+{% endif %}

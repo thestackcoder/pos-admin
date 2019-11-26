@@ -646,7 +646,7 @@ div.system-message p.system-message-title {
 
 div.breadcrumbs {
     background: #7B9BCB;
-    padding: 10px 40px;
+    padding: 10px 40px 10px 200px;
     border: none;
     font-size: 14px;
     color: #c4dce8;
@@ -777,7 +777,10 @@ table#change-history tbody th {
 
 #content {
     padding: 20px 40px;
-    width: 80%;
+}
+
+.main, .main-title{
+    margin-left: 170px;
 }
 
 .dashboard #content {
@@ -838,6 +841,8 @@ table#change-history tbody th {
     /* background: #417690; */
     color: #ffc;
     overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 
 #header a:link, #header a:visited {
@@ -992,11 +997,11 @@ table#change-history tbody th {
 /*Base Finish*/
 
 /*Custom Start*/
-#footer{
-    text-align: center; 
+/* #footer{
     padding:30px; 
     position: absolute;
     bottom: 0;
+    right: 0;
 }
 
 #footer span{
@@ -1005,4 +1010,55 @@ table#change-history tbody th {
 
 #footer span a{
     color: rgb(0, 167, 223);
-}
+} */
+
+
+/* Side Navigation*/
+
+.sidenav {
+    height: 100%;
+    width: 180px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #eeeeee;
+    overflow-x: hidden;
+    padding-top: 100px;
+    box-shadow: 0 19px 25px rgba(39, 39, 39, 0.3), 0 15px 8px rgba(71, 71, 71, 0.22);
+  }
+  
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 26px;
+    color: #1F4E95;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: rgb(80, 131, 206);
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+  /*Grid Container*/
+
+  .grid-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+  }
+  
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+  }
