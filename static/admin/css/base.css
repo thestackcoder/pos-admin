@@ -1062,3 +1062,7 @@ table#change-history tbody th {
     font-size: 30px;
     text-align: center;
   }
+
+.active{
+    color: rgb(80, 131, 206) !important;
+}

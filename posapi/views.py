@@ -30,7 +30,27 @@ def dashboard(request):
     return render(request, template, context)
 
 def sales(request):
-    return render(request, 'admin/sales.html')
+    if request.user.is_authenticated:
+        context = {}
+        template = 'admin/sales.html'
+    else:
+        context = {}
+        template = 'admin/dash.html'
+
+    return render(request, template, context)
 
 def reports(request):
-    return render(request, 'admin/reports.html')
+    if request.user.is_authenticated:
+        context = {}
+        template = 'admin/reports.html'
+    else:
+        context = {}
+        template = 'admin/reports.html'
+
+    return render(request, template, context)
+
+def orders(request):
+    if request.user.is_authenticated:
+        return render(request, 'admin/order/index.html')
+    else:
+        return render(request, 'admin/dash.html')

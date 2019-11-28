@@ -4,6 +4,7 @@ import items.urls
 import orders.urls 
 from items.views import ItemViewSet,CategoryViewSet,FavouriteViewSet,FavouriteItemViewSet
 from orders.views import Order_itemViewSet,OrderViewSet,Order_detailViewSet
+# TodoViewSet
 from actors.views import UserViewSet,CustomerViewSet, login
 import actors.urls
 from rest_framework_extensions.routers import ExtendedSimpleRouter
@@ -52,7 +53,9 @@ router.register('items', items.views.ItemViewSet)
 router.register('categories',items.views.CategoryViewSet)
 router.register('favourite', items.views.FavouriteViewSet,base_name='favourite')
 router.register('favouriteitems', items.views.FavouriteItemViewSet,base_name='favouriteitems')
-router.register('orders', orders.views.OrderViewSet)
+router.register('orders', orders.views.OrderViewSet, base_name='orders')
+# router.register('todo', TodoViewSet, base_name='todo')
+
 # router.register('order_items', orders.views.Order_itemViewSet)
 # router.register('orders_details', orders.views.Order_detailViewSet)
 

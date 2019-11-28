@@ -1,7 +1,148 @@
 #sales-chart{
-    width: 40% !important;
+    width: 41% !important;
+    position: relative;
+    z-index: 1;
+    padding: 15px 20px; 
+    margin: 30px 12px;
+    box-shadow: 0 2px 6px rgba(50,50,50,0.12), 0 2px 4px rgba(50,50,50,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    display: inline-block;
+    vertical-align: middle;
+    height: 400px;
 }
+
+#sales-chart:hover{
+    box-shadow: 0 14px 20px rgba(150,150,150,0.25), 0 6px 6px rgba(150,150,150,0.22);
+}
+
+#sales-chart h1{
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.notify-section{
+    width: 100%;
+}
+/* 
+#bread{
+    margin-top: 55px;
+} */
 
 #myChart{
     width: 100%;
 }
+
+/* 
+#header{
+    position: fixed;
+    top: 0;
+    width: 90%;
+    overflow: hidden;
+} */
+
+.dash-main{
+    margin-left: 210px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.block-row{
+    width: 90%;
+    position: relative;
+    display: flex;
+    text-align: center;
+}
+
+.blocks{
+    margin: 12px;
+    background: #6684b1;
+    padding: 20px;
+    width: 210px;
+    color: #FFEE91;
+    font-size: 18px;
+    font-weight: 400;
+    align-content: center;
+    border-radius: 3px;
+}
+
+.blocks span{
+    display: block;
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #eee;
+}
+
+.blocks {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  }
+  
+.blocks:hover {
+    box-shadow: 0 14px 28px rgba(100,100,100,0.25), 0 6px 6px rgba(50,50,50,0.22);
+  }
+
+hr{
+    background:silver;
+}
+
+
+#recent-actions-module-parent{
+    width: 41% !important;
+    background: #fff;
+    padding: 20px;
+    display: inline-block;
+    margin: 30px 12px;
+    box-shadow: 0 2px 6px rgba(50,50,50,0.12), 0 2px 4px rgba(50,50,50,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border-radius: 3px;
+    vertical-align: top;
+    height: 390px;
+}
+
+#recent-actions-module-parent:hover{
+    box-shadow: 0 14px 20px rgba(150,150,150,0.25), 0 6px 6px rgba(150,150,150,0.22);
+}
+
+#recent-actions-module{
+    overflow-y: scroll;
+    background: #eeeeee56;
+    border-radius: 3px;
+    height: 390px;
+}
+
+.menu-section{
+    margin: 10px 12px;
+    display: inline-block;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(50,50,50,0.12), 0 2px 4px rgba(50,50,50,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    width: 30%;
+}
+
+.menu-section:hover{
+    box-shadow: 0 14px 20px rgba(150,150,150,0.25), 0 6px 6px rgba(150,150,150,0.22);
+}
+
+
+.menu-section table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .menu-section table td, .menu-section table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .menu-section table tr:hover {background-color: #eee;}
+  
+  .menu-section table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(90, 120, 165);
+    color: white;
+  }

@@ -13,6 +13,7 @@ urlpatterns = [
     path('admin/dashboard/', views.dashboard),
     path('admin/sales/', views.sales),
     path('admin/reports/', views.reports),
+    path('admin/order/index/', views.orders),
     path('api/v1/',include('api.urls')),
     path('api-auth/',include('rest_framework.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -79,7 +79,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-
 WSGI_APPLICATION = 'posapi.wsgi.application'
 
 
@@ -179,3 +178,4 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 
 LOGOUT_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/admin/dashboard/'

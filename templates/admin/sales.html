@@ -1,7 +1,106 @@
+{% load i18n static %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dash.css">
 
-{% if user.is_authenticated %}
-<h1>Sales</h1>
-{% else  %}
-<h1>You need to logged in first</h1>
-<a href="/admin/">Login</a>
-{% endif %}
+
+<div id="container">
+<!--Header-->
+<div id="header">
+    <div id="branding">
+    {% block branding %}
+    <h1><b>POS</b> Administration</h1>
+    {% endblock %}
+    </div>
+    {% block usertools %}
+    <div id="user-tools">
+        {% block welcome-msg %}
+            {% trans 'Welcome,' %}
+            <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+            /
+        {% endblock %}
+        {% block userlinks %}
+            {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+            {% endif %}
+            <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+        {% endblock %}
+    </div>
+    {% endblock %}
+    {% block nav-global %}{% endblock %}
+</div>
+<!--End Header-->
+
+ {% block breadcrumbs %}
+    <div class="breadcrumbs" id="bread">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> &rsaquo; {% trans 'Sales and Purchase' %}
+    </div>
+{% endblock %}
+
+{% block sidenav%}  
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/actors">Users</a>
+        <a href="/admin/items">Inventory</a>
+        <a href="/admin/orders">Orders</a>
+        <a class="active" href="/admin/sales">Sales & Purchase</a>
+        <a href="/admin/reports">Reports</a>
+    </div>
+{% endblock %} 
+
+{% block 'content'%}
+<div class="main dash-main">
+
+    <h1> {% trans 'Sales and Purchase' %}</h1>
+   
+
+    <div class="notify-section">
+       <div id="sales-chart">
+            <canvas id="myChart"></canvas>
+            <h1>Monthly Sales</h1>
+        </div>    
+    </div>
+
+</div>
+{% endblock %}
+
+</div>
+{% comment %}End Container{% endcomment %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "June",
+        "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    var d = new Date(); 
+    var m1 = monthNames[d.getMonth()-5];
+    var m2= monthNames[d.getMonth()-4];
+    var m3 = monthNames[d.getMonth()-3];
+    var m4 = monthNames[d.getMonth()-2];
+    var m5 = monthNames[d.getMonth()-1];
+    var m6 = monthNames[d.getMonth()];
+
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+        // The data for our dataset
+        data: {
+            labels: [m1, m2, m3, m4, m5, m6],
+            datasets: [{
+                label: 'Total Monthly Sales',
+                backgroundColor: '#7B9BCB',
+                borderColor: '#f5dd5d',
+                data: [145, 256, 155, 367, 289, 453]
+            }],
+            
+        },
+
+        // Configuration options go here
+        options: {
+            
+        }
+    });
+</script>
