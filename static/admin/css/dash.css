@@ -60,17 +60,41 @@
     background: #6684b1;
     padding: 20px;
     width: 210px;
-    color: #FFEE91;
+    color: #fff;
     font-size: 18px;
     font-weight: 400;
     align-content: center;
     border-radius: 3px;
 }
 
+.blocks:nth-child(1){
+    background: #5fbb44;
+}
+
+.blocks:nth-child(2){
+    background: #f39c12;
+}
+
+.blocks:nth-child(3){
+    background: #e84c3c;
+}
+
+.blocks:nth-child(4){
+    background: #2c3e50;
+}
+
+.blocks:nth-child(5){
+    background: #3c89c0;
+}
+
+.blocks:nth-child(6){
+    background: #eb4778;
+}
+
 .blocks span{
     display: block;
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 600;
     color: #eee;
 }

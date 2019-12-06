@@ -1,0 +1,23 @@
+#manage-panel{
+    width: 300px;
+    background: #eee;
+    cursor: pointer;
+    color: #6684b1;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 23px;
+}
+
+#manage-panel:hover span{
+    text-decoration-line: underline;
+}
+
+#manage-panel span{
+    color: #6684b1;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.block-row a{
+    text-decoration: none;
+}

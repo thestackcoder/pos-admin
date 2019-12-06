@@ -7,6 +7,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import action
+from items.models import Item
+from django.db.models import Avg, Max, Min
+from datetime import datetime, timedelta
+from orders.models import Order_item
 
 class ItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
@@ -80,3 +84,32 @@ class FavouriteItemViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
 
 
 
+
+def items(request):
+    items = Item.objects.all()
+    total_items = Item.objects.count()
+    items_sold = Order_item.objects.count()
+
+    # item_count = Order_item.objects.get()
+
+    #orders taken in second last month
+    # date_from_tt = datetime.today() - timedelta(days=60)
+    # orders_monthly2 = Item.objects.filter(
+    #     datetime__gte = date_from_tt
+    # ).count()
+
+
+    if request.user.is_authenticated:
+        context = {
+            'items': items,
+            'total_items': total_items,
+            'items_sold': items_sold,
+            # 'item_count': item_count.quantity
+            # 'orders_monthly_t': orders_monthly2,
+        }
+        template = 'admin/inventory/index.html'
+    else:
+        context = {}
+        template = 'admin/dash.html'
+
+    return render(request, template, context)

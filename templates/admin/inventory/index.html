@@ -33,7 +33,7 @@
 
  {% block breadcrumbs %}
     <div class="breadcrumbs" id="bread">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> &rsaquo; {% trans 'Order' %}
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> &rsaquo; {% trans 'Inventory' %}
     </div>
 {% endblock %}
 
@@ -42,8 +42,8 @@
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/actors">Users</a>
-        <a href="/admin/items">Inventory</a>
-        <a class="active" href="/admin/order/index">Orders</a>
+        <a class="active" href="/admin/items">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
@@ -52,38 +52,32 @@
 {% block 'content'%}
 <div class="main dash-main">
 
-    <h1> {% trans 'Orders Administration' %}</h1>
+    <h1> {% trans 'Inventory Administration' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/orders/order/"><h3 id="manage-panel" class="blocks">Order Mangement Panel<span>(Click to Manage all the orders)</span></h3></a>
-        <h3 class="blocks">{% trans 'Total Orders' %} <span>{{ orders }}</span></h3>
-        <h3 class="blocks">{% trans "Today's Orders" %} <span>{{ orders_today }}</span></h3>
-        <h3 class="blocks">{% trans "Average Order Price" %} <span>{{ avg_price }}$</span></h3>
-        <h3 class="blocks">{% trans "Highest Order" %} <span>{{ max_price }}$</span></h3>
-        <h3 class="blocks">{% trans "Minimum Order" %} <span>{{ min_price }}$</span></h3>
+        <a href="/admin/items/item/"><h3 id="manage-panel" class="blocks">Inventory Mangement Panel<span>(Click to Manage all the items)</span></h3></a>
+        <h3 class="blocks">{% trans 'Items in Stock' %} <span>{{ total_items }}</span></h3>
+        <h3 class="blocks">{% trans "Items Sold" %} <span>{{ items_sold }}</span></h3>
     </div>
     {% endblock %}
 
 
     <div class="notify-section">
-       <div id="sales-chart">
-            <canvas id="myChart"></canvas>
-            <h1>Monthly Orders Taken</h1>
-        </div>
-
+     
         <div id="recent-actions-module-parent" class="menu-section">
-            <h1>{% trans 'All Orders' %}</h1> 
+            <h1>{% trans 'Top Selling Item' %}</h1> 
             <table> 
-            <tr><th>Orders</th><th>Cashier</th><th>Date-Time</th></tr>
-            {% for o in all_orders %}
-            <tr>
-                <td>{{ o.id }}</td>
-                <td>{{ o.user_id }}</td>
-                <td>{{ o.datetime }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+                <tr><th>Item</th><th>Category</th><th>Count</th></tr>
+                {% for i in items %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.category }}</td>
+                    <td>{{ i.category }}</td>
+                {% endfor %}
+                </tr>
+            </table>
         </div>
+        
     </div>
 
 </div>

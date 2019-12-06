@@ -9,6 +9,10 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=50,null=True)
     # order_item_id = models.ForeignKey(Order_item, related_name='order', on_delete = models.CASCADE,)
 
+    def __str__(self):
+        return self.datetime.strftime("%m/%d/%Y, %H:%M:%S")
+    
+
 class Order_item(models.Model):
     item = models.ForeignKey(Item, on_delete = models.CASCADE,)
     quantity = models.IntegerField(null=True)

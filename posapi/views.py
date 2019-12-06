@@ -13,7 +13,7 @@ def dashboard(request):
 
     total_sales = 0;
     for s in sales:
-        total_sales += int(s.item.price)
+        total_sales += s.item.price
 
     if request.user.is_authenticated:
         template = 'admin/dashboard.html'
@@ -49,8 +49,3 @@ def reports(request):
 
     return render(request, template, context)
 
-def orders(request):
-    if request.user.is_authenticated:
-        return render(request, 'admin/order/index.html')
-    else:
-        return render(request, 'admin/dash.html')
