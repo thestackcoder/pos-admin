@@ -18,7 +18,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=50,null=True)
     contact = models.CharField(max_length=50,null=True)
     image = models.ImageField(upload_to='pics/', blank=True)
- 
+
 
 
 

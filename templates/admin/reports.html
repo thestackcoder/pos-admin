@@ -1,6 +1,7 @@
 {% load i18n static %}
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
 <link rel="stylesheet" type="text/css" href="/static/admin/css/dash.css">
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 
 <div id="container">
@@ -40,8 +41,8 @@
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/actors">Users</a>
-        <a href="/admin/items">Inventory</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
         <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a class="active" href="/admin/reports">Reports</a>
@@ -52,9 +53,58 @@
 <div class="main dash-main">
 
     <h1> {% trans 'Reports' %}</h1>
-   
+    
+    <h2> {% trans 'Inventory Report' %}</h2><hr>
+
+    <form action="output/" method="post">
+        {% csrf_token %}
+        Start Date: <input name="start" type="date" />
+        End Date: <input name="end" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+
+     
+    <h2> {% trans 'Daily Report' %}</h2><hr>
+
+    <form action="output/" method="post">
+        {% csrf_token %}
+        Start Date: <input name="start" type="date" />
+        End Date: <input name="end" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+     
+    <h2> {% trans 'Order Report' %}</h2><hr>
+
+    <form action="output/" method="post">
+        {% csrf_token %}
+        Start Date: <input name="start" type="date" />
+        End Date: <input name="end" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+
+     
+    <h2> {% trans 'Sales Report' %}</h2><hr>
+
+    <form id="item-form" method="post">
+        {% csrf_token %}
+        Start Date: <input id="start" name="start" type="date" />
+        End Date: <input id="end" name="end" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+
+
 
 </div>
 {% endblock %}
 
 </div>
+
+{% block javascript %}
+<script>
+    $('#item-form').on('submit', function(){
+        var start = new Date($('#start').val());
+        var end = new Date($('#start').val());
+    });
+
+</script>
+{% endblock %}

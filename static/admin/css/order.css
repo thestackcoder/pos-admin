@@ -21,3 +21,12 @@
 .block-row a{
     text-decoration: none;
 }
+
+.import-btn{
+    float: right;
+}
+
+.upload_csv{
+    padding: 10px;
+    margin-bottom: 20px;
+}

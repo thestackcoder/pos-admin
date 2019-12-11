@@ -13,6 +13,7 @@
     {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
 {% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+
 </head>
 {% load i18n %}
 
@@ -88,9 +89,10 @@
         {% block sidebar %}{% endblock %}
         <br class="clear">
     </div>
-    <!-- END Content -->
 
+    <!-- END Content -->
     {% block footer %}<div id="footer"></div>{% endblock %}
+
 </div>
 <!-- END Container -->
 

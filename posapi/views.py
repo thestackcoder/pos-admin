@@ -45,7 +45,8 @@ def reports(request):
         template = 'admin/reports.html'
     else:
         context = {}
-        template = 'admin/reports.html'
+        template = 'admin/dash.html'
 
     return render(request, template, context)
+
 

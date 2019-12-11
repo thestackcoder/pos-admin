@@ -777,14 +777,13 @@ table#change-history tbody th {
 
 #content {
     padding: 20px 40px;
-}
-
-.main, .main-title{
+    width: 80%;
     margin-left: 170px;
 }
 
 .dashboard #content {
     width: 800px;
+    margin-top: 50px;
 }
 
 #content-main {
@@ -831,18 +830,20 @@ table#change-history tbody th {
 /* HEADER */
 
 #header {
-    width: auto;
+    width: 100%;
     height: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
     background: #0F356D;
+    box-sizing: border-box;
     /* background: #417690; */
     color: #ffc;
     overflow: hidden;
-    position: relative;
+    position: fixed;
     z-index: 2;
+    top: 0;
 }
 
 #header a:link, #header a:visited {
@@ -1065,4 +1066,17 @@ table#change-history tbody th {
 
 .active{
     color: rgb(80, 131, 206) !important;
+}
+
+.breadcrumbs{
+    margin-top: 55px;
+}
+
+#changelist{
+    width: 90% !important;
+}
+
+#recent-actions-module{
+    overflow-y: scroll;
+    height: 400px;
 }

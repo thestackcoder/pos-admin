@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import status
 from rest_framework.decorators import action
+from django.db.models import Avg, Max, Min
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
 
@@ -51,4 +52,31 @@ def login(request):
         
     return Response({"message": "User Not Logged in"})
 
+
+def users(request):
+    users = User.objects.all()
+    customers = Customer.objects.all()
+    total_users = User.objects.count()
+    total_customers = Customer.objects.count()
+
+    #orders taken in second last month
+    # date_from_tt = datetime.today() - timedelta(days=60)
+    # orders_monthly2 = User.objects.filter(
+    #     datetime__gte = date_from_tt
+    # ).count()
+
+
+    if request.user.is_authenticated:
+        context = {
+            'total_users': total_users,
+            'total_customers': total_customers,
+            'users': users,
+            'customers': customers,
+        }
+        template = 'admin/users/index.html'
+    else:
+        context = {}
+        template = 'admin/dash.html'
+
+    return render(request, template, context)
 

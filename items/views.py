@@ -8,9 +8,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.decorators import action
 from items.models import Item
-from django.db.models import Avg, Max, Min
+from django.db.models import Avg, Max, Min, Sum
 from datetime import datetime, timedelta
 from orders.models import Order_item
+import csv, io
+from django.contrib import messages
 
 class ItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
@@ -86,25 +88,20 @@ class FavouriteItemViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
 
 
 def items(request):
-    items = Item.objects.all()
+    items = Item.objects.all().order_by('name')
     total_items = Item.objects.count()
     items_sold = Order_item.objects.count()
 
-    # item_count = Order_item.objects.get()
-
-    #orders taken in second last month
-    # date_from_tt = datetime.today() - timedelta(days=60)
-    # orders_monthly2 = Item.objects.filter(
-    #     datetime__gte = date_from_tt
-    # ).count()
-
+    # Each item count
+    items_count = Order_item.objects.values('item__name').annotate(Sum('quantity')).order_by('item__name')
+    # print(items_count) 
 
     if request.user.is_authenticated:
         context = {
             'items': items,
             'total_items': total_items,
             'items_sold': items_sold,
-            # 'item_count': item_count.quantity
+            'item_count': items_count
             # 'orders_monthly_t': orders_monthly2,
         }
         template = 'admin/inventory/index.html'
@@ -112,4 +109,37 @@ def items(request):
         context = {}
         template = 'admin/dash.html'
 
+    return render(request, template, context)
+
+
+def import_items(request):
+    print('helloooo')
+    template = 'admin/inventory/index.html'
+    data = Item.objects.all()
+
+    prompt = {
+        'order': 'Order of CSV should be name,price,image,category',
+        'items': data
+    }
+
+    if request.method == 'GET':
+        return render(request, template, prompt)
+
+    csv_file = request.FILES['file']
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'Please upload acsv file.')
+
+    data_set = csv_file.read().decode('UTF-8')
+    print(data_set)
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        _, created = Profile.objects.update_or_create(
+            name=column[0],
+            price=column[1],
+            image=column[2],
+            category=column[3],
+        )
+    context = {}
     return render(request, template, context)

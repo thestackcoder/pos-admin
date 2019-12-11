@@ -41,8 +41,8 @@
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/actors">Users</a>
-        <a class="active" href="/admin/items">Inventory</a>
+        <a href="/admin/users/index">Users</a>
+        <a class="active" href="/admin/item/index">Inventory</a>
         <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
@@ -55,7 +55,7 @@
     <h1> {% trans 'Inventory Administration' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/items/item/"><h3 id="manage-panel" class="blocks">Inventory Mangement Panel<span>(Click to Manage all the items)</span></h3></a>
+        <a href="/admin/items"><h3 id="manage-panel" class="blocks">Inventory Mangement Panel<span>(Click to Manage all the items)</span></h3></a>
         <h3 class="blocks">{% trans 'Items in Stock' %} <span>{{ total_items }}</span></h3>
         <h3 class="blocks">{% trans "Items Sold" %} <span>{{ items_sold }}</span></h3>
     </div>
@@ -64,17 +64,46 @@
 
     <div class="notify-section">
      
-        <div id="recent-actions-module-parent" class="menu-section">
+        <div id="item-module-1" class="menu-section">
             <h1>{% trans 'Top Selling Item' %}</h1> 
             <table> 
-                <tr><th>Item</th><th>Category</th><th>Count</th></tr>
+                <tr><th>Item</th><th>Category</th><th>Quantity Sold</th></tr>
                 {% for i in items %}
                 <tr>
                     <td>{{ i.name }}</td>
                     <td>{{ i.category }}</td>
-                    <td>{{ i.category }}</td>
+                    {% for p in items_count %}
+                        {% if p.item__name == i.name %}
+                            <td>{{ p.quantity__sum }}</td>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
                 </tr>
+            </table>
+        </div>
+
+        <div id="item-module-2" class="menu-section">
+            <h1>{% trans 'Upload Items (CSV file upload)' %}</h1>  
+             {% if messages %}
+                {% for message in messages %}
+                    <div>
+                        <strong>{{message|safe}}</strong>
+                    </div>
+                {% endfor %}
+            {% else %}
+            {{order}}             
+
+            <form class='upload_csv' action="{% url 'import_items' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" id="file1" name="file" />
+                <input class="import-btn" type="submit" value="Import" />
+            </form>
+            {% endif %}
+                {% for profile in profiles %}
+                {{profile.name}}
+            {% endfor %}
+            <table> 
+                <tr><th>Item Name</th><th>Price</th><th>Category</th></tr>                
             </table>
         </div>
         

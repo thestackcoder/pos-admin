@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'items',
     'actors',
     'orders',
+    'reports',
     'api',
 ]
 AUTH_USER_MODEL = 'actors.User'
@@ -126,6 +127,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -176,5 +179,5 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
 }
 
-LOGIN_REDIRECT_URL = '/admin/dashboard/'
+ADMIN_LOGIN_REDIRECT_URL = '/admin/dashboard'
 LOGOUT_REDIRECT_URL = '/admin/'
