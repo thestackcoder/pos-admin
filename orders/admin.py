@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Order
-<<<<<<< HEAD
 from django.contrib.auth.models import Group
 
 class OrderAdmin(admin.ModelAdmin):
@@ -11,8 +10,3 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 admin.site.unregister(Group)
-=======
-
-admin.site.register(Order)
-
->>>>>>> 2ecf0a95c0e966e5e85f2fc7ceeedb690ee54a4b

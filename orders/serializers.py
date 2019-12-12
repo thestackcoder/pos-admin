@@ -15,10 +15,12 @@ class Order_itemSeriaizer(serializers.ModelSerializer):
 
 class OrderSeriaizer(serializers.ModelSerializer):
     user_name = serializers.CharField(source='user_id.name',required=False)
+    customer_name = serializers.CharField(source='customer.name',required=False)
+
     order_items = Order_itemSeriaizer(many=True)
     class Meta:
         model = Order
-        fields = ['id', 'datetime','user_id','user_name', 'customer', 'payment_method','order_items']
+        fields = ['id', 'datetime','user_id','user_name', 'customer', 'customer_name', 'payment_method','order_items']
 
     def create(self, validated_data):
         order_items = validated_data.pop('order_items')
