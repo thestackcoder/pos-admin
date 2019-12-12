@@ -19,6 +19,12 @@ class User(AbstractUser):
     contact = models.CharField(max_length=50,null=True)
     image = models.ImageField(upload_to='pics/', blank=True)
 
+<<<<<<< HEAD
+=======
+    def __str__(self):
+        return self.username
+ 
+>>>>>>> 2ecf0a95c0e966e5e85f2fc7ceeedb690ee54a4b
 
 
 

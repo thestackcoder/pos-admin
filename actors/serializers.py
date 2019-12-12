@@ -10,7 +10,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'RF_id','balance']
         
 class UserSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(use_url=False)
+    image = serializers.ImageField(use_url=False,required=False)
     class Meta:
         model = User
         fields = ['id', 'name', 'username','password','contact', 'image']

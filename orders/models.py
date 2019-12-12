@@ -1,6 +1,7 @@
 from django.db import models
 from actors.models import Customer,User
 from items.models import Item
+from datetime import datetime
 
 class Order(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
@@ -14,9 +15,9 @@ class Order(models.Model):
     
 
 class Order_item(models.Model):
-    item = models.ForeignKey(Item, on_delete = models.CASCADE,)
-    quantity = models.IntegerField(null=True)
-    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete = models.CASCADE,blank=True, null=True)
+    quantity = models.IntegerField(blank=True, null=True)
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE,blank=True, null=True)
 
     class Meta:
         unique_together = ['item', 'order']
