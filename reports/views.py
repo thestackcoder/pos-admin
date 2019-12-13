@@ -10,7 +10,6 @@ def get_item_report(request):
 
     order_items = Order.objects.filter(datetime__range=[start_date, end_date])
 
-
     return HttpResponse(order_items)
 
 

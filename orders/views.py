@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 #         return Response(data=data)
 
 class OrderViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('-datetime')
     serializer_class = OrderSeriaizer
 
 class Order_detailViewSet(viewsets.ModelViewSet):

@@ -16,7 +16,7 @@ class Order_itemSeriaizer(serializers.ModelSerializer):
 class OrderSeriaizer(serializers.ModelSerializer):
     user_name = serializers.CharField(source='user_id.name',required=False)
     customer_name = serializers.CharField(source='customer.name',required=False)
-
+    datetime = serializers.DateTimeField(format="%b %d,%Y %H:%M%p", read_only=True)
     order_items = Order_itemSeriaizer(many=True)
     class Meta:
         model = Order
