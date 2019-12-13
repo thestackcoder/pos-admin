@@ -56,10 +56,28 @@
     
     <h2> {% trans 'Inventory Report' %}</h2><hr>
 
-    <form id="item-form" method="post">
+    <form action="output/" id="item-form" method="post">
         {% csrf_token %}
-        Start Date: <input name="start" type="date" />
-        End Date: <input name="end" type="date"  />
+        Start Date: <input id="start" name="start_date" type="date" />
+        End Date: <input id="end" name="end_date" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+
+    <h2> {% trans 'Sales Report' %}</h2><hr>
+
+    <form action="output/" id="item-form" method="post">
+        {% csrf_token %}
+        Start Date: <input id="start" name="start_date" type="date" />
+        End Date: <input id="end" name="end_date" type="date"  />
+        <input type="submit" value="Submit" />
+    </form> 
+
+    <h2> {% trans 'Purchase Report' %}</h2><hr>
+
+    <form action="output/" id="item-form" method="post">
+        {% csrf_token %}
+        Start Date: <input id="start" name="start_date" type="date" />
+        End Date: <input id="end" name="end_date" type="date"  />
         <input type="submit" value="Submit" />
     </form>
 
@@ -70,28 +88,39 @@
 
 {% block javascript %}
 <script>
-    $(document).ready(function(){
-        console.log('test');
-        $('#item-form').submit(function(){
-            var start = new Date($('#start').val());
-            var end = new Date($('#end').val());
 
-            console.log(start);
-            console.log(end);
+    // $('#item-form').on('submit', function(e){
+    //     e.preventDefault();
+    //     console.log("form submitted!")
 
-            // $.ajax({
-            //     url: '/admin/reports/output/',
-            //     data: {
-            //         'start_date': start,
-            //         'end_data': end
-            //     },
-            //     dataType: 'json',
-            //     success: function (data) {
-            //         console.log(data);
-            //     }
-            // });
-        });
-    });
+    //     var start = new Date($('#start').val());
+    //     // day = start.getDate();
+    //     // month = start.getMonth() + 1;
+    //     // year = start.getFullYear();
+    //     // s_date = [day, month, year].join('/');
+
+    //     var end = new Date($('#end').val());
+    //     // day = end.getDate();
+    //     // month = end.getMonth() + 1;
+    //     // year = end.getFullYear();
+    //     // e_date = [day, month, year].join('/');
+
+    //     console.log(start);
+    //     console.log(end);
+
+    //     $.ajax({
+    //         url: '/admin/reports/output/',
+    //         type : "POST",
+    //         data: {
+    //             'start_date': start,
+    //             'end_data': end
+    //         },
+    //         dataType: 'json',
+    //         success: function (data) {
+    //             console.log(data);
+    //         }
+    //     });
+    // });
     
 
 </script>
