@@ -39,12 +39,12 @@
 
 {% block sidenav%}  
     <div class="sidenav">
-        <a href="/admin">Quick Access</a>
-        <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/users/index">Users</a>
-        <a href="/admin/item/index">Inventory</a>
-        <a href="/admin/order/index">Orders</a>
-        <a href="/admin/sales">Sales & Purchase</a>
+        <a href="/admin">Quick Access</a><hr>
+        <a href="/admin/dashboard">Dashboard</a><hr>
+        <a href="/admin/users/index">Users</a><hr>
+        <a href="/admin/item/index">Inventory</a><hr>
+        <a href="/admin/order/index">Orders</a><hr>
+        <a href="/admin/sales">Sales & Purchase</a><hr>
         <a class="active" href="/admin/reports">Reports</a>
     </div>
 {% endblock %} 
@@ -81,6 +81,21 @@
         <input type="submit" value="Submit" />
     </form>
 
+    <h2> {% trans 'Daily Sales History' %}</h2><hr><br>
+    <!-- <button>Generate Daily Sales Report</button> -->
+    <br>
+    <div class="notify-section">
+        <div id="recent-actions-module-parent" class="menu-section">
+            <table> 
+            <tr><th>Orders</th><th>Cashier</th><th>Date-Time</th></tr>
+            {% for o in data %}
+            <tr>
+                <td>{{ o.id }}</td>
+            </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

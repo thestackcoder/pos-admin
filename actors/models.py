@@ -6,10 +6,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Customer(models.Model):
-    name = models.CharField(max_length=50,null=True)
-    RF_id = models.CharField(max_length=50,null=True)
+    name = models.CharField(max_length=255,null=True)
+    RF_id = models.CharField(max_length=255, primary_key=True)
     balance = models.CharField(max_length=50,null=True)
-    
+    roll_no = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 

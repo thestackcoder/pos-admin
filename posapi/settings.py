@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'posapi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'posdb2',
+        'NAME': 'pos_dev',
         'USER' : 'frienddoouser',
         'PASSWORD' :'GAL6615M13',
         'HOST' : 'localhost'
