@@ -27,8 +27,8 @@ urlpatterns = [
     path('api/v1/',include('api.urls')),
     path('api-auth/',include('rest_framework.urls')),
 
-    path('line_chart_json', line_chart_json,
-        name='line_chart_json'),
+    # path('line_chart_json', line_chart_json,
+    #     name='line_chart_json'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
