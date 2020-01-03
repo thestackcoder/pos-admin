@@ -106,14 +106,14 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 <script>
-    $.get('{% url "line_chart_json" %}', function(data) {
+    {% comment %} $.get('{% url "line_chart_json" %}', function(data) {
         var ctx = $("#myChart").get(0).getContext("2d");
         new Chart(ctx, {
             type: 'bar', 
             data: data,
         });
-    });
-    {% comment %} var ctx = document.getElementById('myChart').getContext('2d');
+    }); {% endcomment %}
+    var ctx = document.getElementById('myChart').getContext('2d');
     const monthNames = [
         "Jan", "Feb", "Mar", "Apr", "May", "June",
         "July", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -148,5 +148,5 @@
         options: {
             
         }
-    }); {% endcomment %}
+    }); 
 </script>
