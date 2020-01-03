@@ -3,7 +3,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from orders.views import orders
+from orders.views import orders, line_chart_json
 from items.views import items, import_items
 from actors.views import users
 from reports.views import get_item_report, daily_sales_report
@@ -14,6 +14,7 @@ admin.site.index_title = "Welcome to POS Admin Portal"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/dashboard/', views.dashboard),
     path('admin/users/index/', users),
     path('admin/sales/', views.sales),
@@ -25,6 +26,10 @@ urlpatterns = [
     path('admin/item/index/', import_items, name="import_items"),
     path('api/v1/',include('api.urls')),
     path('api-auth/',include('rest_framework.urls')),
+
+    path('line_chart_json', line_chart_json,
+        name='line_chart_json'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

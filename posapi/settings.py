@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'chartjs',
     'items',
     'actors',
     'orders',
@@ -167,5 +168,5 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
 }
 
-ADMIN_LOGIN_REDIRECT_URL = '/admin/dashboard'
-LOGOUT_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/admin/dashboard/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'

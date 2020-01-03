@@ -37,16 +37,27 @@
     </div>
 {% endblock %}
 
-{% block sidenav%}  
+{% block sidenav %}  
+{% if user.is_superuser %}
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/users/index">Users</a>
-        <a class="active" href="/admin/item/index">Inventory</a>
+        <a href="/admin/item/index">Inventory</a>
         <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
+{% else %}
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+    </div>
+{% endif %}
 {% endblock %} 
 
 {% block 'content'%}
@@ -68,15 +79,12 @@
             <h1>{% trans 'Top Selling Item' %}</h1> 
             <table> 
                 <tr><th>Item</th><th>Category</th><th>Quantity Sold</th></tr>
-                {% for i in items %}
-                <tr>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.category }}</td>
-                    {% for p in items_count %}
-                        {% if p.item__name == i.name %}
-                            <td>{{ p.quantity__sum }}</td>
-                        {% endif %}
-                    {% endfor %}
+                {% for i in items_count %}
+                    <tr>
+                        <td>{{ i.item__name }}</td>
+                        <td>{{ i.item__category__name }}</td>
+                        <td>{{ i.quantity__sum }}</td>
+                    </tr>
                 {% endfor %}
                 </tr>
             </table>

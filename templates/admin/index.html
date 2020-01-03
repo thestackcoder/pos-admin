@@ -9,9 +9,11 @@
 
 {% block breadcrumbs %}{% endblock %}
 
-{% block sidenav%}  
+
+{% block sidenav %}  
+{% if user.is_superuser %}
     <div class="sidenav">
-        <a class="active" href="/admin">Quick Access</a>
+        <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/users/index">Users</a>
         <a href="/admin/item/index">Inventory</a>
@@ -19,7 +21,19 @@
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
+{% else %}
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+    </div>
+{% endif %}
 {% endblock %}
+
+
 
 {% block content %}
 <div class="main" id="content-main">

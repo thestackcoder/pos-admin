@@ -30,8 +30,9 @@ def dashboard(request):
     return render(request, template, context)
 
 def sales(request):
+    items = Item.objects.all()
     if request.user.is_authenticated:
-        context = {}
+        context = {'items': items}
         template = 'admin/sales.html'
     else:
         context = {}

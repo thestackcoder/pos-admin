@@ -11,6 +11,10 @@ from datetime import datetime, timedelta
 # import json
 # import requests
 
+from random import randint
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView, BaseLineOptionsChartView
+
 # def gettodo(request):
 #     response = requests.get('https://jsonplaceholder.typicode.com/todos/1')
 #     return response
@@ -25,13 +29,43 @@ class OrderViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
     queryset = Order.objects.all().order_by('-datetime')
     serializer_class = OrderSeriaizer
 
+    def createOrder():
+        myStockList1 = []
+        myStockList2 = []
+        mySoldList1 = []
+        mySoldList2 = []
+        stockItems = Item.objects.all()
+        for data in stockItems:
+            # print("Stock =", data.name,data.stock)
+            myStockList1.append(data.name)
+            myStockList2.append(data.stock)
+        stockDictionary = dict(zip(myStockList1, myStockList2))
+        # print("Stock items ",stockDictionary)
+        orderData = Order.objects.last()
+        # print(orderData)
+        orderItem = Order_item.objects.filter(order=orderData)
+        for items in orderItem:
+            # print(items.item.name,items.quantity)
+            mySoldList1.append(items.item.name)
+            mySoldList2.append(items.quantity)
+        soldDictionary = dict(zip(mySoldList1, mySoldList2))
+        # print("Sold items ",soldDictionary)
+        for total in stockDictionary:
+            if total in soldDictionary:
+                totalRemainingStock = stockDictionary[total] - soldDictionary[total]
+                print("Remaining Items",total, "=", totalRemainingStock)
+                # print(totalRemainingStock)
+                Item.objects.filter(name=total).update(stock=totalRemainingStock)
+    
+    createOrder()
+
 class Order_detailViewSet(viewsets.ModelViewSet):
     queryset = Order_detail.objects.order_by('id')
     serializer_class = Order_detailSeriaizer
 
-class Order_itemViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
+class Order_itemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Order_item.objects.order_by('id')
-    serializer_class = Order_itemSeriaizer
+    serializer_class = Order_itemSeriaizer    
 
 
 def orders(request):
@@ -83,4 +117,40 @@ def orders(request):
         template = 'admin/dash.html'
 
     return render(request, template, context)
-    
+
+
+
+class ChartMixin(object):
+    def get_colors(self):
+        colors = COLORS[:]
+        shuffle(colors)
+        return next_color(colors)
+
+class LineChartJSONView(BaseLineChartView):
+    def get_labels(self):
+        months = ["Nov", "Oct", "Sep", "Aug", "Jul", "June"]
+        return months
+
+    def get_providers(self):
+        return ['orders']
+
+    def get_data(self):
+        last_month = datetime.today() - timedelta(days=30)
+        orders = Order.objects.filter(datetime__gte=last_month).count()
+
+        s_last_month = datetime.today() - timedelta(days=60)
+        orders2 = Order.objects.filter(datetime__gte=s_last_month).count()
+
+        return [[orders, orders2, 92, 11, 44, 95, 35]]
+
+
+class LineChartWithOptionsJSONView(ChartMixin, BaseLineOptionsChartView):
+    def get_options(self):
+        options = {
+            backgroundColor: '#333333'
+        }
+        return options
+
+
+line_chart = TemplateView.as_view(template_name='admin/order/index.html')
+line_chart_json = LineChartJSONView.as_view()

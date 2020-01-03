@@ -36,16 +36,28 @@
     </div>
 {% endblock %}
 
-{% block sidenav%}  
+
+{% block sidenav %}  
+{% if user.is_superuser %}
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/users/index">Users</a>
         <a href="/admin/item/index">Inventory</a>
         <a href="/admin/order/index">Orders</a>
-        <a class="active" href="/admin/sales">Sales & Purchase</a>
+        <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
+{% else %}
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+    </div>
+{% endif %}
 {% endblock %} 
 
 {% block 'content'%}
@@ -53,13 +65,40 @@
 
     <h1> {% trans 'Sales and Purchase' %}</h1>
    
+   {% block 'data-blocks' %}
+    <div class="block-row">
+        <h3 id="manage-panel" class="blocks">{% trans 'Total Sales' %} <span></span></h3>
+        <h3 class="blocks">{% trans "Today's Sale" %} <span>{{ total_users }}</span></h3>
+        <h3 class="blocks">{% trans "Last Week Sale" %} <span>{{ total_customers }}</span></h3>
+        <h3 class="blocks">{% trans "Last Month Sale" %} <span>{{ total_customers }}</span></h3>
+        <h3 class="blocks">{% trans "Last Week Purchase" %} <span>{{ total_customers }}</span></h3>
+        <h3 class="blocks">{% trans "Revenue" %} <span>{{ total_customers }}</span></h3>
+    </div>
+    {% endblock %}
 
     <div class="notify-section">
        <div id="sales-chart">
             <canvas id="myChart"></canvas>
             <h1>Monthly Sales</h1>
         </div>    
+        <div id="item-module-12" class="menu-section">
+            <h1>{% trans 'Remaining Stock' %}</h1> 
+            <table> 
+                <tr><th>Item</th><th>Category</th><th>Quantity Left</th><th>Image</th></tr>
+                        {% for i in items %}
+                            <tr>
+                                <td>{{ i.name }}</td>
+                                <td>{{ i.category }}</td>
+                                <td>{{ i.stock }}</td>
+                                <td><img src="{{ i.image.url }}" style="height: 30px; width:30px;" alt="item"></td>                                
+                            </tr>
+                        {% endfor %}
+            </table>
+            
+        </div>
     </div>
+
+ 
 
 </div>
 {% endblock %}

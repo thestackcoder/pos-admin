@@ -37,16 +37,28 @@
     </div>
 {% endblock %}
 
-{% block sidenav%}  
+
+{% block sidenav %}  
+{% if user.is_superuser %}
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/users/index">Users</a>
         <a href="/admin/item/index">Inventory</a>
-        <a class="active" href="/admin/order/index">Orders</a>
+        <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
+{% else %}
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+    </div>
+{% endif %}
 {% endblock %} 
 
 {% block 'content'%}
@@ -92,10 +104,17 @@
 </div>
 {% comment %}End Container{% endcomment %}
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+<script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+    $.get('{% url "line_chart_json" %}', function(data) {
+        var ctx = $("#myChart").get(0).getContext("2d");
+        new Chart(ctx, {
+            type: 'bar', 
+            data: data,
+        });
+    });
+    {% comment %} var ctx = document.getElementById('myChart').getContext('2d');
     const monthNames = [
         "Jan", "Feb", "Mar", "Apr", "May", "June",
         "July", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -130,5 +149,5 @@
         options: {
             
         }
-    });
+    }); {% endcomment %}
 </script>

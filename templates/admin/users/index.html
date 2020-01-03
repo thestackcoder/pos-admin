@@ -37,16 +37,27 @@
     </div>
 {% endblock %}
 
-{% block sidenav%}  
+{% block sidenav %}  
+{% if user.is_superuser %}
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
         <a href="/admin/dashboard">Dashboard</a>
         <a href="/admin/users/index">Users</a>
         <a href="/admin/item/index">Inventory</a>
-        <a class="active" href="/admin/order/index">Orders</a>
+        <a href="/admin/order/index">Orders</a>
         <a href="/admin/sales">Sales & Purchase</a>
         <a href="/admin/reports">Reports</a>
     </div>
+{% else %}
+    <div class="sidenav">
+        <a href="/admin">Quick Access</a>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/users/index">Users</a>
+        <a href="/admin/item/index">Inventory</a>
+        <a href="/admin/order/index">Orders</a>
+        <a href="/admin/sales">Sales & Purchase</a>
+    </div>
+{% endif %}
 {% endblock %} 
 
 {% block 'content'%}
@@ -55,7 +66,7 @@
     <h1> {% trans 'Users Administration, Cashier / Customers' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/actors/user"><h3 id="manage-panel" class="blocks">Users Management Panel<span>(Manage all the Users/Customers)</span></h3></a>
+        <a href="/admin/actors/"><h3 id="manage-panel" class="blocks">Users Management Panel<span>(Manage all the Users/Customers)</span></h3></a>
         <h3 class="blocks">{% trans 'Total Users' %} <span>{{ total_users }}</span></h3>
         <h3 class="blocks">{% trans "Total Customers" %} <span>{{ total_customers }}</span></h3>
     </div>
@@ -67,11 +78,13 @@
         <div id="recent-actions-module-parent" class="menu-section">
             <h1>{% trans 'All Users/Cashiers' %}</h1> 
             <table> 
-                <tr><th>ID</th><th>Users</th></tr>
+                <tr><th>ID</th><th>Users</th><th>Contact</th><th>Staff Status</th></tr>
                 {% for u in users %}
                 <tr>
                     <td>{{ u.id }}</td>
                     <td>{{ u.name }}</td>
+                    <td>{{ u.contact }}</td>
+                    <td>{{ u.is_staff }}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -80,11 +93,13 @@
         <div id="recent-actions-module-parent" class="menu-section">
             <h1>{% trans 'All Customers' %}</h1> 
             <table> 
-                <tr><th>ID</th><th>Customers</th></tr>
+                <tr><th>RFID</th><th>Roll no#</th><th>Customers</th><th>Balance</th></tr>
                 {% for c in customers %}
                 <tr>
-                    <td>{{ c.id }}</td>
+                    <td>{{ c.RF_id }}</td>
+                    <td>{{ c.roll_no }}</td>
                     <td>{{ c.name }}</td>
+                    <td>{{ c.balance }}</td>
                 </tr>
                 {% endfor %}
             </table>

@@ -54,7 +54,7 @@ def login(request):
 
 
 def users(request):
-    users = User.objects.all()
+    users = User.objects.filter(is_superuser=False).order_by('id')
     customers = Customer.objects.all()
     total_users = User.objects.count()
     total_customers = Customer.objects.count()
