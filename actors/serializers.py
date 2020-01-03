@@ -7,7 +7,7 @@ from rest_framework.serializers import HyperlinkedIdentityField,ModelSerializer,
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['RF_id', 'name', 'roll_no','balance']
+        fields = ['roll_no', 'name']
         
 class UserSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(use_url=False,required=False)
