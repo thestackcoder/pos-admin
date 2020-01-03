@@ -3,7 +3,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from orders.views import orders, line_chart_json
+from orders.views import orders
 from items.views import items, import_items
 from actors.views import users
 from reports.views import get_item_report, daily_sales_report
