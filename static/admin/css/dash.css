@@ -123,8 +123,29 @@ hr{
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     border-radius: 3px;
     vertical-align: top;
-    height: 390px;
+    position: relative;
+    height: 400px;    
 }
+
+#recent-actions-module-parent .table_container{
+    position: relative;
+    overflow-y: scroll;
+    height: 340px;    
+}
+
+#recent-actions-module-parent .table_container{
+    position: relative;
+    overflow-y: scroll;
+    height: 340px;    
+}
+
+#item-module-1 .table_container,
+    #item-module-2 .table_container{
+    position: relative;
+    overflow-y: scroll;
+    height: 340px;
+}
+
 
 #recent-actions-module-parent:hover{
     box-shadow: 0 14px 20px rgba(150,150,150,0.25), 0 6px 6px rgba(150,150,150,0.22);

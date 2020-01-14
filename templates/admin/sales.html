@@ -81,20 +81,21 @@
             <canvas id="myChart"></canvas>
             <h1>Monthly Sales</h1>
         </div>    
-        <div id="item-module-12" class="menu-section">
+        <div id="recent-actions-module-parent" class="menu-section">
             <h1>{% trans 'Remaining Stock' %}</h1> 
-            <table> 
-                <tr><th>Item</th><th>Category</th><th>Quantity Left</th><th>Image</th></tr>
-                        {% for i in items %}
-                            <tr>
-                                <td>{{ i.name }}</td>
-                                <td>{{ i.category }}</td>
-                                <td>{{ i.stock }}</td>
-                                <td><img src="{{ i.image.url }}" style="height: 30px; width:30px;" alt="item"></td>                                
-                            </tr>
-                        {% endfor %}
-            </table>
-            
+            <div class="table_container">
+                <table> 
+                    <tr><th>Item</th><th>Category</th><th>Quantity Left</th><th>Image</th></tr>
+                    {% for i in items %}
+                        <tr>
+                            <td>{{ i.name }}</td>
+                            <td>{{ i.category }}</td>
+                            <td>{{ i.stock }}</td>
+                            <td><img src="{{ i.image.url }}" style="height: 30px; width:30px;" alt="item"></td>                                
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
 

@@ -1080,3 +1080,55 @@ table#change-history tbody th {
     overflow-y: scroll;
     height: 400px;
 }
+
+.danger{
+    color: #fff !important;
+    padding: 5px;
+    background: #ba2121e1;
+    border-radius: 3px;
+}
+
+.success{
+    color: #fff !important;
+    padding: 10px 8px;
+    background: #21ba3a;
+    border-radius: 3px;
+}
+
+.danger:hover{
+    opacity: 0.9;
+}
+
+.success:hover{
+    background: #25ac3c;
+}
+
+#myInput {
+    width: 40%;
+    display: inline-block;
+    font-size: 15px;
+    padding: 8px 10px 8px 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+    float: right;
+    margin-top: -10px;
+  }
+
+.tb-h h1{
+    display: inline;
+}
+
+.hr-line{
+    background:rgba(196, 194, 194, 0.527);
+    margin: 10px;
+}
+
+.add-btn{
+    float: right;
+    display: inline-block;
+    margin-top: -5px;
+}
+
+#item-module-2 h1,#item-module-1 h1{
+    display: inline;
+}

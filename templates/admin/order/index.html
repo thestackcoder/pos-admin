@@ -85,16 +85,18 @@
 
         <div id="recent-actions-module-parent" class="menu-section">
             <h1>{% trans 'All Orders' %}</h1> 
-            <table> 
-            <tr><th>Orders</th><th>Cashier</th><th>Date-Time</th></tr>
-            {% for o in all_orders %}
-            <tr>
-                <td>{{ o.id }}</td>
-                <td>{{ o.user_id }}</td>
-                <td>{{ o.datetime }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+            <div class="table_container">
+                <table> 
+                    <tr><th>Orders</th><th>Cashier</th><th>Date-Time</th></tr>
+                    {% for o in all_orders %}
+                    <tr>
+                        <td>{{ o.id }}</td>
+                        <td>{{ o.user_id }}</td>
+                        <td>{{ o.datetime }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
     </div>
 

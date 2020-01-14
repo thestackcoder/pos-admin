@@ -91,6 +91,8 @@ def items(request):
     items = Item.objects.all().order_by('name')
     total_items = Item.objects.count()
     items_sold = Order_item.objects.count()
+    categories = Category.objects.all()
+    total_categories = Category.objects.count()
 
     # Each item count
     items_count = Order_item.objects.values('item__name', 'item__category__name').annotate(Sum('quantity')).order_by('item__name')
@@ -101,7 +103,9 @@ def items(request):
             'items': items,
             'total_items': total_items,
             'items_sold': items_sold,
-            'items_count': items_count
+            'items_count': items_count,
+            'categories': categories,
+            'total_categories': total_categories
             # 'orders_monthly_t': orders_monthly2,
         }
         template = 'admin/inventory/index.html'

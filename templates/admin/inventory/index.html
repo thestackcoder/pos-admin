@@ -66,8 +66,8 @@
     <h1> {% trans 'Inventory Administration' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/items"><h3 id="manage-panel" class="blocks">Inventory Mangement Panel<span>(Click to Manage all the items)</span></h3></a>
         <h3 class="blocks">{% trans 'Items in Stock' %} <span>{{ total_items }}</span></h3>
+        <h3 class="blocks">{% trans 'Total Categories' %} <span>{{ total_categories }}</span></h3>
         <h3 class="blocks">{% trans "Items Sold" %} <span>{{ items_sold }}</span></h3>
     </div>
     {% endblock %}
@@ -75,8 +75,39 @@
 
     <div class="notify-section">
      
-        <div id="item-module-1" class="menu-section">
+        <div id="item-module-2" class="menu-section">
+            <h1>{% trans 'All Food Items' %}</h1>  
+            {% comment %} <input type="text" id="myInput" onkeyup="searchStudents()" placeholder="Search for Customers/Students by Roll number" title=""> {% endcomment %}
+            <a class="success add-btn" href="/admin/items/item/add/">Add New Item</a>
+            <br><br>
+             {% if messages %}
+                {% for message in messages %}
+                    <div>
+                        <strong>{{message|safe}}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="table_container">
+                <table> 
+                    <tr><th>Item Name</th><th>Price</th><th>Image</th><th>Stock</th><th>Category</th><th>Edit</th><th>Delete</th></tr>
+                    {% for i in items%}
+                        <tr>
+                            <td>{{i.name}}</td>         
+                            <td>{{i.price}}</td>                
+                            <td>{{i.image.url}}</td> 
+                            <td>{{i.stock}}</td> 
+                            <td>{{i.category}}</td>     
+                            <td><a href="/admin/items/item/{{i.id}}/change/">Edit</a></td>
+                            <td><a class="danger" href="/admin/items/item/{{i.id}}/delete/">Delete</a></td>       
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+         <div id="item-module-1" class="menu-section">
             <h1>{% trans 'Top Selling Item' %}</h1> 
+            <br><br>
             <table> 
                 <tr><th>Item</th><th>Category</th><th>Quantity Sold</th></tr>
                 {% for i in items_count %}
@@ -90,28 +121,20 @@
             </table>
         </div>
 
-        <div id="item-module-2" class="menu-section">
-            <h1>{% trans 'Upload Items (CSV file upload)' %}</h1>  
-             {% if messages %}
-                {% for message in messages %}
-                    <div>
-                        <strong>{{message|safe}}</strong>
-                    </div>
-                {% endfor %}
-            {% else %}
-            {{order}}             
-
-            <form class='upload_csv' action="{% url 'import_items' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" id="file1" name="file" />
-                <input class="import-btn" type="submit" value="Import" />
-            </form>
-            {% endif %}
-                {% for profile in profiles %}
-                {{profile.name}}
-            {% endfor %}
+        <div id="item-module-1" class="menu-section">
+            <h1>{% trans 'Food Categories' %}</h1> 
+            <a class="success add-btn" href="/admin/items/category/add/">Add New Category</a>
+            <br><br>
             <table> 
-                <tr><th>Item Name</th><th>Price</th><th>Category</th></tr>                
+                <tr><th>Name</th><th>Edit</th><th>Delete</th></tr>
+                {% for c in categories %}
+                    <tr>
+                        <td>{{ c.name }}</td>
+                        <td><a href="/admin/items/category/{{c.id}}/change/">Edit</a></td>
+                        <td><a class="danger" href="/admin/items/category/{{c.id}}/delete/">Delete</a></td> 
+                    </tr>
+                {% endfor %}
+                </tr>
             </table>
         </div>
         

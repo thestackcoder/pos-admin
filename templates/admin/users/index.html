@@ -66,50 +66,63 @@
     <h1> {% trans 'Users Administration, Cashier / Customers' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/actors/"><h3 id="manage-panel" class="blocks">Users Management Panel<span>(Manage all the Users/Customers)</span></h3></a>
+        {% comment %} <a href="/admin/actors/"><h3 id="manage-panel" class="blocks">Users Management Panel<span>(Manage all the Users/Customers)</span></h3></a> {% endcomment %}
         <h3 class="blocks">{% trans 'Total Users' %} <span>{{ total_users }}</span></h3>
         <h3 class="blocks">{% trans "Total Customers" %} <span>{{ total_customers }}</span></h3>
     </div>
     {% endblock %}
+
+    <div style="width: 86% !important;" id="recent-actions-module-parent" class="menu-section tb-h">
+        <br>
+        <h1>{% trans 'All Customers / Students' %}</h1> 
+        <input type="text" id="myInput" onkeyup="searchStudents()" placeholder="Search for Customers/Students by Roll number" title="">
+        <br><br>
+        <div class="table_container">
+            <table id="customer_table"> 
+                <tr><th>Roll no#</th><th>Customers</th><th>Edit</th><th>Delete</th></tr>
+                {% for c in customers %}
+                <tr>
+                    <td>{{ c.roll_no }}</td>
+                    <td>{{ c.name }}</td>
+                    <td><a href="/admin/actors/customer/{{c.roll_no}}/change/">Edit</a></td>
+                    <td><a class="danger" href="/admin/actors/customer/{{c.roll_no}}/delete/">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 
 
     <div class="notify-section">
       
         <div id="recent-actions-module-parent" class="menu-section">
             <h1>{% trans 'All Users/Cashiers' %}</h1> 
-            <table> 
-                <tr><th>ID</th><th>Users</th><th>Contact</th><th>Staff Status</th></tr>
-                {% for u in users %}
-                <tr>
-                    <td>{{ u.id }}</td>
-                    <td>{{ u.name }}</td>
-                    <td>{{ u.contact }}</td>
-                    <td>{{ u.is_staff }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="table_container">
+                <table> 
+                    <tr><th>ID</th><th>Users</th><th>Contact</th><th>Staff Status</th><th>Edit</th><th>Delete</th></tr>
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.id }}</td>
+                        <td>{{ u.name }}</td>
+                        <td>{{ u.contact }}</td>
+                        <td>{{ u.is_staff }}</td>
+                        <td><a href="/admin/actors/user/{{u.id}}/change/">Edit</a></td>
+                        <td><a class="danger" href="/admin/actors/user/{{u.id}}/delete/">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
 
-        <div id="recent-actions-module-parent" class="menu-section">
-            <h1>{% trans 'All Customers' %}</h1> 
-            <table> 
-                <tr><th>RFID</th><th>Roll no#</th><th>Customers</th><th>Balance</th></tr>
-                {% for c in customers %}
-                <tr>
-                    <td>{{ c.RF_id }}</td>
-                    <td>{{ c.roll_no }}</td>
-                    <td>{{ c.name }}</td>
-                    <td>{{ c.balance }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
 
-    <div id="sales-chart">
-        <canvas id="myChart"></canvas>
-        <h1>Monthly Orders Taken</h1>
+        <div id="sales-chart">
+            <canvas id="myChart"></canvas>
+            <h1>Monthly Orders Taken</h1>
+        </div>
+
+        
     </div>
+    
 
 
 </div>
@@ -121,6 +134,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script>
+    function searchStudents() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("customer_table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+            }       
+        }
+    }
+
     var ctx = document.getElementById('myChart').getContext('2d');
     const monthNames = [
         "Jan", "Feb", "Mar", "Apr", "May", "June",
