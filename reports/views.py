@@ -81,11 +81,9 @@ def get_inventry_report(request):
 
 @staff_member_required
 def get_item_report(request):
-    start_date = request.POST.get('start')
-    end_date = request.POST.get('end')
-    # print(start_date)
-    order_items = Order.objects.filter(datetime__date__range=[start_date, end_date])
-    # print(order_items)
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    order_items = Order.objects.filter(datetime__range=[start_date, end_date])
 
     if request.user.is_authenticated:
         context = {'order_items':order_items}
