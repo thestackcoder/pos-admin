@@ -29,12 +29,12 @@
     {% block nav-global %}{% endblock %}
 </div>
 <!--End Header-->
-
+ 
  {% block breadcrumbs %}
     <div class="breadcrumbs" id="bread">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> &rsaquo; {% trans 'Dashboard' %}
+    <a href="/admin/dashboard">{% trans 'Home' %}</a>
     </div>
-{% endblock %}
+{% endblock %} 
 
 {% block sidenav %}  
 {% if user.is_superuser %}
