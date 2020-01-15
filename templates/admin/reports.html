@@ -1,7 +1,5 @@
 {% extends 'admin/base_site.html' %}
 {% load i18n static %}
-<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-<link rel="stylesheet" type="text/css" href="/static/admin/css/dash.css">
 
 
 <div id="container">
@@ -65,43 +63,69 @@
 <div class="main dash-main">
 
     <h1> {% trans 'Reports' %}</h1>
-    
+
+    <h2> {% trans 'Daily / Weekly / Monthly Reports' %}</h2><hr>
+    <form action="daily_report/" method="post" >
+        {% csrf_token %}
+        <input style="width: 200px;" type="submit" value="Daily Report" />
+    </form><br>
+    <form action="weekly_report/" method="post" >
+        {% csrf_token %}
+        <input style="width: 200px;" type="submit" value="Weekly Report" />
+    </form><br>
+    <form action="monthly_report/" method="post">
+        {% csrf_token %}
+        <input style="width: 200px;" type="submit" value="Monthly Report" />
+    </form>
+
+    <h2> {% trans 'Inventory Report' %}</h2>
+    <form action="inventry_report/" method="post">
+        {% csrf_token %}
+        <label>Start Date: </label><input id="start" name="start" type="date" />
+        <label>End Date: </label><input id="end" name="end" type="date"  />
+        <input type="submit" value="Submit" />
+    </form>
+    <br>
+
     <h2> {% trans 'Order Report' %}</h2><hr>
 
     <form action="output/" id="item-form" method="post">
         {% csrf_token %}
-        Start Date: <input id="start" name="start_date" type="date" />
-        End Date: <input id="end" name="end_date" type="date"  />
+        <label>Start Date: </label><input id="start" name="start_date" type="date" />
+        <label>End Date: </label><input id="end" name="end_date" type="date"  />
         <input type="submit" value="Submit" />
     </form>
+    <br>
 
-    <h2> {% trans 'Sales Report' %}</h2><hr>
+    {% comment %} <h2> {% trans 'Sales Report' %}</h2><hr>
 
     <form action="output/" id="item-form" method="post">
         {% csrf_token %}
-        Start Date: <input id="start" name="start_date" type="date" />
-        End Date: <input id="end" name="end_date" type="date"  />
+        <label>Start Date: </label><input id="start" name="start_date" type="date" />
+        <label>End Date: </label><input id="end" name="end_date" type="date"  />
         <input type="submit" value="Submit" />
     </form> 
+    <br>
 
     <h2> {% trans 'Purchase Report' %}</h2><hr>
 
     <form action="output/" id="item-form" method="post">
         {% csrf_token %}
-        Start Date: <input id="start" name="start_date" type="date" />
-        End Date: <input id="end" name="end_date" type="date"  />
+        <label>Start Date: </label><input id="start" name="start_date" type="date" />
+        <label>End Date: </label><input id="end" name="end_date" type="date"  />
         <input type="submit" value="Submit" />
     </form>
+    <br> {% endcomment %}
 
     <h2> {% trans 'Employee Performance Report' %}</h2><hr>
     <form action="employee_performance_report/" method="post" >
         {% csrf_token %}
-    Select Report:  <select name="ereport" class="mdb-select md-form ereport">
+    <label>Select Report: </label><select name="ereport" class="mdb-select md-form ereport">
                         <option value="daily_report">Daily Report</option>
                         <option value="weekly_report">Weekly Report</option>
                         <option value="monthly_report">Monthly Report</option>
                     </select>
-    Select User:     <select name="ereportuser" class="ereportuser">
+    <label>Select User: </label><select name="ereportuser" class="ereportuser">
                         {% for user in all_users %}
                             <option value="{{user.pk}}" >{{user}}</option>
                         {% endfor %}
@@ -109,7 +133,7 @@
                     <input type="submit" value="Submit" />
     </form>
 
-    <h2> {% trans 'Daily Sales History' %}</h2><hr><br>
+    {% comment %} <h2> {% trans 'Daily Sales History' %}</h2><hr><br>
     <!-- <button>Generate Daily Sales Report</button> -->
     <br>
     <div class="notify-section">
@@ -123,7 +147,7 @@
             {% endfor %}
             </table>
         </div>
-    </div>
+    </div> {% endcomment %}
 </div>
 {% endblock %}
 

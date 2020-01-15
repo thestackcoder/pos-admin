@@ -7,7 +7,6 @@
 <link href="/static/css/tableexport.css" rel="stylesheet">
 <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css&skin=desert"></script>
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 
 <div id="container">
@@ -37,12 +36,6 @@
 </div>
 <!--End Header-->
 
- {% comment %} {% block breadcrumbs %}
-    <div class="breadcrumbs" id="bread" style="margin-top: 0px;">
-    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a> &rsaquo; {% trans 'Reports' %}
-    </div>
-{% endblock %} {% endcomment %}
-
 {% block sidenav%}  
     <div class="sidenav">
         <a href="/admin">Quick Access</a>
@@ -50,29 +43,75 @@
         <a href="/admin/users/index">Users</a>
         <a href="/admin/item/index">Inventory</a>
         <a href="/admin/order/index">Orders</a>
-        <a href="/admin/sales">Sales and Purchase</a>
+        <a href="/admin/sales">Sales & Purchase</a>
         <a class="active" href="/admin/reports">Reports</a>
     </div>
 {% endblock %} 
-
 {% block 'content'%}
 <main>
-    <table id="Sales-report" class="table table-striped table-bordered"
+    <table id="Monthly-report" class="table table-striped table-bordered"
             data-name="cool-table">
     </table>
 </main>
 <div class="main dash-main">
     <div class="menu-section" style="width: 90%;">
-        <h3>{% trans 'Employee Performance Report' %}</h3> <br>
-        <table id="Sales-report" class="table table-striped table-bordered"
+        <h3>{% trans 'Monthly Inventory Report' %}</h3> 
+        <table id="monthly-inventry" class="table table-striped table-bordered"
         data-name="cool-table"> 
-            <tr><th>Username</th><th>Total Sale</th></tr>
-                    <td>{{ cashier}}</td>
-                    <td>{{ total_sale}}</td>
+            <tr><th>Item Name</th><th>Item Category</th><th>Item Sold</th><th>Item Left</th><th>Item Sale</th></tr>
+            {% for monthly in monthly_inventry %}
+            <tr>
+                <td>{{ monthly.item__name }}</td>
+                <td>{{ monthly.item__category__name}}</td>
+                <td>{{ monthly.quantity__sum }}</td>
+                <td>{{ monthly.item__stock }}</td>
+                <td> {% widthratio monthly.item__price__sum 1 monthly.quantity__sum%} </td>
+            </tr>
+            {% endfor %}
         </table>
-        <!-- <input style="position:relative;top:10px;" type="button" onclick="exportTableToExcel('tblData1')" value="Export"> -->
     </div>
+
 </div>
+<div class="main dash-main">
+    <div class="menu-section" style="width: 90%;">
+        <h3>{% trans 'Monthly Orders Report' %}</h3> 
+        <table id="Monthly-orders" class="table table-striped table-bordered"
+        data-name="cool-table"> 
+            <tr><th>Order Id</th><th>Cashier</th><th>Customer Name</th><th>Payment</th><th>Date</th></tr>
+            {% for order in monthly_order %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user_id}}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.payment_method}}</td>
+                <td>{{ order.datetime }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+<!-- <main>
+    <table id="Population-list-2" class="table table-striped table-bordered"
+            data-name="cool-table">
+    </table>
+</main> -->
+<!-- <div class="main dash-main">
+    <div class="menu-section" style="width: 90%;">
+        <h1>{% trans 'Monthly Sales Report' %}</h1> 
+        <table id="Monthly-sale" class="table table-striped table-bordered"
+        data-name="cool-table"> 
+            <tr><th>Item</th><th>Category</th></tr>
+            {% for sale in monthly_sales %}
+            <tr>
+                <td>{{ sale.item__name }}</td>
+                <td>{{ sale.item__category__name}}</td>
+                <td>{{ sale.item__price__sum }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div> -->
 {% endblock %}
 
 </div>
@@ -85,14 +124,14 @@
     });
 
 </script>
-<!-- <script>
+<script>
     function exportTableToExcel(tableID, filename = ''){
         var downloadLink;
         var dataType = 'application/vnd.ms-excel';
         var tableSelect = document.getElementById(tableID);
         var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');     
         // Specify file name
-        filename = filename?filename+'.xls':'Sales.xls';
+        filename = filename?filename+'.xls':'Monthly-Report.xls';
         // Create download link element
         downloadLink = document.createElement("a");
         
@@ -114,7 +153,7 @@
             downloadLink.click();
         }
     }
-</script> -->
+</script>
 <script type="text/javascript" src="/static/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/static/js/Bootstrap/bootstrap.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap-autohidingnavbar/jquery.bootstrap-autohidingnavbar.js"></script>

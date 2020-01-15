@@ -37,7 +37,7 @@ def login(request):
                 "status": 1, 
                 "message": "User successfully logged in.",
                 "data": { 
-                    "id": user_data.id,        
+                    "id": user_data.id,
                     "name": user_data.name,
                     "username": user_data.username,
                     "contact": user_data.contact,
