@@ -18,6 +18,7 @@ class Order_item(models.Model):
     item = models.ForeignKey(Item, on_delete = models.CASCADE,blank=True, null=True)
     quantity = models.IntegerField(blank=True, null=True)
     order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE,blank=True, null=True)
+    datetime = models.DateField(auto_now_add=True)
 
     class Meta:
         unique_together = ['item', 'order']

@@ -93,6 +93,22 @@
         <input type="submit" value="Submit" />
     </form>
 
+    <h2> {% trans 'Employee Performance Report' %}</h2><hr>
+    <form action="employee_performance_report/" method="post" >
+        {% csrf_token %}
+    Select Report:  <select name="ereport" class="mdb-select md-form ereport">
+                        <option value="daily_report">Daily Report</option>
+                        <option value="weekly_report">Weekly Report</option>
+                        <option value="monthly_report">Monthly Report</option>
+                    </select>
+    Select User:     <select name="ereportuser" class="ereportuser">
+                        {% for user in all_users %}
+                            <option value="{{user.pk}}" >{{user}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Submit" />
+    </form>
+
     <h2> {% trans 'Daily Sales History' %}</h2><hr><br>
     <!-- <button>Generate Daily Sales Report</button> -->
     <br>

@@ -6,7 +6,7 @@ from . import views
 from orders.views import orders
 from items.views import items, import_items
 from actors.views import users
-from reports.views import get_item_report, daily_sales_report
+from reports.views import get_item_report, daily_sales_report, get_employee_performance
 
 admin.site.site_header = "Smart POS - Administration"
 admin.site.site_title = "Smart POS"
@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/reports/', views.reports),
     path('admin/reports/output/', get_item_report, name="get_item_report"),
     path('admin/reports/', daily_sales_report, name='daily_sales_report'),
+    path('admin/reports/employee_performance_report/', get_employee_performance, name="get_employee_performance"),
     path('admin/order/index/', orders),
     path('admin/item/index/', items),
     path('admin/item/index/', import_items, name="import_items"),

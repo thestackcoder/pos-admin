@@ -41,8 +41,9 @@ def sales(request):
     return render(request, template, context)
 
 def reports(request):
+    all_user = User.objects.filter(is_superuser=False)
     if request.user.is_authenticated:
-        context = {}
+        context = {'all_users':all_user}
         template = 'admin/reports.html'
     else:
         context = {}
