@@ -76,10 +76,32 @@
 
 
     <div class="notify-section">
-       <div id="sales-chart">
-            <canvas id="myChart"></canvas>
-            <h1>Monthly Sales</h1>
+        <div class="menu-section">
+            <h1>{% trans 'Item Menu List' %}</h1> 
+            <table> 
+                <tr><th>Item</th><th>Price</th><th>Quantity Left</th></tr>
+                {% for i in menu %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.price }} $</td>
+                    <td>-</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
+        {% comment %} <div id="sales-chart">
+            <h1>{% trans 'Item Menu List' %}</h1> 
+            <table> 
+                <tr><th>Item</th><th>Price</th><th>Quantity Left</th></tr>
+                {% for i in menu %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.price }} $</td>
+                    <td>-</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div> {% endcomment %}
 
         <div id="recent-actions-module-parent">
         <div class="module" id="recent-actions-module">
@@ -112,19 +134,7 @@
     </div>
 
 
-    <div class="menu-section">
-        <h1>{% trans 'Item Menu List' %}</h1> 
-        <table> 
-            <tr><th>Item</th><th>Price</th><th>Quantity Left</th></tr>
-            {% for i in menu %}
-            <tr>
-                <td>{{ i.name }}</td>
-                <td>{{ i.price }} $</td>
-                <td>-</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+   
 </div>
 {% endblock %}
 
