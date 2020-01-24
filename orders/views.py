@@ -6,8 +6,8 @@ from orders.serializers import Order_detailSeriaizer,Order_itemSeriaizer,OrderSe
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
-from django.db.models import Avg, Max, Min
-from datetime import datetime, timedelta
+from django.db.models import Avg, Max, Min,Sum
+from datetime import datetime, timedelta,date
 # import json
 # import requests
 
@@ -76,6 +76,30 @@ def orders(request):
     
     min_order_price = Order.objects.all().aggregate(Min("order_items__item__price"))
     min_price = round(min_order_price.get('order_items__item__price__min'),1)
+    # last week order graph 
+    # today = date.today()
+    # print(today)
+    d6 = datetime.now() - timedelta(days=6)
+    d6= d6.date()
+    d5 = datetime.now() - timedelta(days=5)
+    d5= d5.date()
+    d4 = datetime.now() - timedelta(days=4)
+    d4= d4.date()
+    d3 = datetime.now() - timedelta(days=3)
+    d3= d3.date()
+    d2 = datetime.now() - timedelta(days=2)
+    d2= d2.date()
+    d1 = datetime.now() - timedelta(days=1)
+    d1= d1.date()
+    d0 = datetime.now() - timedelta(days=0)
+    d0= d0.date()
+    orders_0 = Order.objects.filter(datetime__date = d0).count()
+    orders_1 = Order.objects.filter(datetime__date = d1).count()
+    orders_2 = Order.objects.filter(datetime__date = d2).count()
+    orders_3 = Order.objects.filter(datetime__date = d3).count()
+    orders_4 = Order.objects.filter(datetime__date = d4).count()
+    orders_5 = Order.objects.filter(datetime__date = d5).count()
+    orders_6 = Order.objects.filter(datetime__date = d6).count()
 
     #orders taken in last 24 hours    
     date_from = datetime.now() - timedelta(days=1)    
@@ -98,6 +122,13 @@ def orders(request):
 
     if request.user.is_authenticated:
         context = {
+            'orders_0':orders_0,
+            'orders_1':orders_1,
+            'orders_2':orders_2,
+            'orders_3':orders_3,
+            'orders_4':orders_4,
+            'orders_5':orders_5,
+            'orders_6':orders_6,
             'all_orders': orders,
             'orders': total_orders,
             'avg_price': avg_price,

@@ -64,8 +64,18 @@
 <div class="main dash-main">
 
     <h1> {% trans 'Sales and Purchase' %}</h1>
+       {% block 'data-blocks' %}
+        <div class="block-row">
+        <h3 class="blocks">{% trans 'Last Week Sales' %} <span>{{ last_week_sale }} $</span></h3>
+        <h3 class="blocks">{% trans "Today's Sales" %}  <span>{{daily_sale}} $</span></h3>
+        <h3 class="blocks">{% trans 'Users' %} <span>{{ user_count }}</span></h3>
+        <h3 class="blocks">{% trans 'Orders' %} <span>{{ order_count }}</span></h3>
+        <h3 class="blocks">{% trans 'Customers' %} <span>{{ customers_count }}</span></h3>
+        <!-- <h3 class="blocks">{% trans 'Purchase' %}  <span>5500 $</span></h3> -->
+    </div>
+    {% endblock %}
    
-   {% block 'data-blocks' %}
+   {% comment %} {% block 'data-blocks' %}
     <div class="block-row">
         <h3 id="manage-panel" class="blocks">{% trans 'Total Sales' %} <span></span></h3>
         <h3 class="blocks">{% trans "Today's Sale" %} <span>{{ total_users }}</span></h3>
@@ -74,7 +84,7 @@
         <h3 class="blocks">{% trans "Last Week Purchase" %} <span>{{ total_customers }}</span></h3>
         <h3 class="blocks">{% trans "Revenue" %} <span>{{ total_customers }}</span></h3>
     </div>
-    {% endblock %}
+    {% endblock %} {% endcomment %}
 
     <div class="notify-section">
        <div id="sales-chart">
@@ -112,28 +122,35 @@
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     const monthNames = [
-        "Jan", "Feb", "Mar", "Apr", "May", "June",
+        "Jan", "Feb", "Mar","Apr", "May", "June",
         "July", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     var d = new Date(); 
-    var m1 = monthNames[d.getMonth()-5];
-    var m2= monthNames[d.getMonth()-4];
-    var m3 = monthNames[d.getMonth()-3];
-    var m4 = monthNames[d.getMonth()-2];
-    var m5 = monthNames[d.getMonth()-1];
-    var m6 = monthNames[d.getMonth()];
+    //var m1 = monthNames[d.getMonth()+1];
+    //var m2= monthNames[d.getMonth()+2];
+    //var m3 = monthNames[d.getMonth()+3];
+    //var m4 = monthNames[d.getMonth()+4];
+    //var m5 = monthNames[d.getMonth()+5];
+    //var m6 = monthNames[d.getMonth()+6];
+    var m7= monthNames[d.getMonth()+7];
+    var m8 = monthNames[d.getMonth()+8];
+    var m9 = monthNames[d.getMonth()+9];
+    var m10 = monthNames[d.getMonth()+10];
+    var m11 = monthNames[d.getMonth()+11];
+    var m12 = monthNames[d.getMonth()];
+    
 
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'bar',
         // The data for our dataset
         data: {
-            labels: [m1, m2, m3, m4, m5, m6],
+            labels: [m7, m8, m9, m10, m11, m12],
             datasets: [{
                 label: 'Total Monthly Sales',
                 backgroundColor: '#7B9BCB',
                 borderColor: '#f5dd5d',
-                data: [145, 256, 155, 367, 289, 453]
+                data: [{{m8_sale}},{{m9_sale}},{{m10_sale}},{{m11_sale}},{{m12_sale}},{{m1_sale}}]
             }],
             
         },

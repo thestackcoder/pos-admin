@@ -76,18 +76,9 @@
 
 
     <div class="notify-section">
-        <div class="menu-section">
-            <h1>{% trans 'Item Menu List' %}</h1> 
-            <table> 
-                <tr><th>Item</th><th>Price</th><th>Quantity Left</th></tr>
-                {% for i in menu %}
-                <tr>
-                    <td>{{ i.name }}</td>
-                    <td>{{ i.price }} $</td>
-                    <td>-</td>
-                </tr>
-                {% endfor %}
-            </table>
+        <div id="sales-chart">
+            <canvas id="myChart"></canvas>
+            <h1>Monthly Sales</h1>
         </div>
         {% comment %} <div id="sales-chart">
             <h1>{% trans 'Item Menu List' %}</h1> 
@@ -104,32 +95,46 @@
         </div> {% endcomment %}
 
         <div id="recent-actions-module-parent">
-        <div class="module" id="recent-actions-module">
-            <h2>Notifications</h2>
-            {% load log %}
-            {% get_admin_log 10 as admin_log for_user user %}
-            {% if not admin_log %}
-            <p>None Avaialble</p>
-            {% else %}
-            <ul class="actionlist">
-            {% for entry in admin_log %}
-            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
-                {% if entry.is_deletion or not entry.get_admin_url %}
-                    {{ entry.object_repr }}
+            <div class="module" id="recent-actions-module">
+                <h2>Notifications</h2>
+                {% load log %}
+                {% get_admin_log 10 as admin_log for_user user %}
+                {% if not admin_log %}
+                <p>None Avaialble</p>
                 {% else %}
-                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                <ul class="actionlist">
+                {% for entry in admin_log %}
+                <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                    {% if entry.is_deletion or not entry.get_admin_url %}
+                        {{ entry.object_repr }}
+                    {% else %}
+                        <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                    {% endif %}
+                    <br>
+                    {% if entry.content_type %}
+                        <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                    {% else %}
+                        <span class="mini quiet">Unknown Content</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+                </ul>
                 {% endif %}
-                <br>
-                {% if entry.content_type %}
-                    <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
-                {% else %}
-                    <span class="mini quiet">Unknown Content</span>
-                {% endif %}
-            </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
+            </div>
         </div>
+
+         <div class="menu-section">
+            <h1>{% trans 'Item Menu List' %}</h1> 
+            <table> 
+                <tr><th>Item</th><th>Price</th><th>Quantity Left</th></tr>
+                {% for i in menu %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.price }} $</td>
+                    <td>-</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 
@@ -146,28 +151,34 @@
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     const monthNames = [
-        "Jan", "Feb", "Mar", "Apr", "May", "June",
+        "Jan", "Feb", "Mar","Apr", "May", "June",
         "July", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
     var d = new Date(); 
-    var m1 = monthNames[d.getMonth()-5];
-    var m2= monthNames[d.getMonth()-4];
-    var m3 = monthNames[d.getMonth()-3];
-    var m4 = monthNames[d.getMonth()-2];
-    var m5 = monthNames[d.getMonth()-1];
-    var m6 = monthNames[d.getMonth()];
+    //var m1 = monthNames[d.getMonth()+1];
+    //var m2= monthNames[d.getMonth()+2];
+    //var m3 = monthNames[d.getMonth()+3];
+    //var m4 = monthNames[d.getMonth()+4];
+    //var m5 = monthNames[d.getMonth()+5];
+    //var m6 = monthNames[d.getMonth()+6];
+    var m7= monthNames[d.getMonth()+7];
+    var m8 = monthNames[d.getMonth()+8];
+    var m9 = monthNames[d.getMonth()+9];
+    var m10 = monthNames[d.getMonth()+10];
+    var m11 = monthNames[d.getMonth()+11];
+    var m12 = monthNames[d.getMonth()];
 
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'bar',
         // The data for our dataset
         data: {
-            labels: [m1, m2, m3, m4, m5, m6],
+            labels: [m7, m8, m9, m10, m11, m12],
             datasets: [{
                 label: 'Total Monthly Sales',
                 backgroundColor: '#7B9BCB',
                 borderColor: '#f5dd5d',
-                data: [145, 256, 155, 367, 289, 453]
+                data: [{{m8_sale}},{{m9_sale}},{{m10_sale}},{{m11_sale}},{{m12_sale}},{{m1_sale}}]
             }],
             
         },
