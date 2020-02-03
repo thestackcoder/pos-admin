@@ -25,35 +25,34 @@ class OrderViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
     queryset = Order.objects.all().order_by('-datetime')
     serializer_class = OrderSeriaizer
 
-    # def createOrder():
-    #     myStockList1 = []
-    #     myStockList2 = []
-    #     mySoldList1 = []
-    #     mySoldList2 = []
-    #     stockItems = Item.objects.all()
-    #     for data in stockItems:
-    #         # print("Stock =", data.name,data.stock)
-    #         myStockList1.append(data.name)
-    #         myStockList2.append(data.stock)
-    #     stockDictionary = dict(zip(myStockList1, myStockList2))
-    #     # print("Stock items ",stockDictionary)
-    #     orderData = Order.objects.last()
-    #     # print(orderData)
-    #     orderItem = Order_item.objects.filter(order=orderData)
-    #     for items in orderItem:
-    #         # print(items.item.name,items.quantity)
-    #         mySoldList1.append(items.item.name)
-    #         mySoldList2.append(items.quantity)
-    #     soldDictionary = dict(zip(mySoldList1, mySoldList2))
-    #     # print("Sold items ",soldDictionary)
-    #     for total in stockDictionary:
-    #         if total in soldDictionary:
-    #             totalRemainingStock = stockDictionary[total] - soldDictionary[total]
-    #             print("Remaining Items",total, "=", totalRemainingStock)
-    #             # print(totalRemainingStock)
-    #             Item.objects.filter(name=total).update(stock=totalRemainingStock)
-    
-    # createOrder()
+@api_view()
+def updateStock(self):
+    items_count = Order_item.objects.values('item__name').annotate(Sum('quantity')).order_by('item__name')
+    myStockList1 = []
+    myStockList2 = []
+    mySoldList1 = []
+    mySoldList2 = []
+    stockItems = Item.objects.all().order_by('name')
+    for data in stockItems:
+        myStockList1.append(data.name)
+        myStockList2.append(data.stock)
+    stockDictionary = dict(zip(myStockList1, myStockList2))
+    # print("Stock items ",stockDictionary)
+    orderData = Order.objects.last()
+    # print(orderData)
+    orderItem = Order_item.objects.filter(order=orderData)
+    for items in orderItem:
+        # print(items.item.name,items.quantity)
+        mySoldList1.append(items.item.name)
+        mySoldList2.append(items.quantity)
+    soldDictionary = dict(zip(mySoldList1, mySoldList2))
+    for total in stockDictionary:
+        if total in soldDictionary:
+            totalRemainingStock = stockDictionary[total] - soldDictionary[total]
+            # print("Remaining Items",total, "=", totalRemainingStock)
+            Item.objects.filter(name=total).update(stock=totalRemainingStock)
+
+    return Response({})
 
 class Order_detailViewSet(viewsets.ModelViewSet):
     queryset = Order_detail.objects.order_by('id')
@@ -79,17 +78,25 @@ def orders(request):
     # last week order graph 
     # today = date.today()
     # print(today)
+    today = date.today()
+    to_day=today.weekday()
     d6 = datetime.now() - timedelta(days=6)
+    d__6 = d6.weekday()
     d6= d6.date()
     d5 = datetime.now() - timedelta(days=5)
+    d__5 = d5.weekday()
     d5= d5.date()
     d4 = datetime.now() - timedelta(days=4)
+    d__4 = d4.weekday()
     d4= d4.date()
     d3 = datetime.now() - timedelta(days=3)
+    d__3 = d3.weekday()
     d3= d3.date()
     d2 = datetime.now() - timedelta(days=2)
+    d__2 = d2.weekday()
     d2= d2.date()
     d1 = datetime.now() - timedelta(days=1)
+    d__1 = d1.weekday()
     d1= d1.date()
     d0 = datetime.now() - timedelta(days=0)
     d0= d0.date()
@@ -122,6 +129,13 @@ def orders(request):
 
     if request.user.is_authenticated:
         context = {
+            'd__6':d__6,
+            'd__5':d__5,
+            'd__4':d__4,
+            'd__3':d__3,
+            'd__2':d__2,
+            'd__1':d__1,
+            'to_day':to_day,
             'orders_0':orders_0,
             'orders_1':orders_1,
             'orders_2':orders_2,
