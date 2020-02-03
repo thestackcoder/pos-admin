@@ -67,7 +67,7 @@
     <h1> {% trans 'Orders Administration' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
-        <a href="/admin/orders/order/"><h3 id="manage-panel" class="blocks">Order Mangement Panel<span>(Click to Manage all the orders)</span></h3></a>
+        {% comment %}<a href="/admin/orders/order/"><h3 id="manage-panel" class="blocks">Order Mangement Panel<span>(Click to Manage all the orders)</span></h3></a>{% endcomment %}
         <h3 class="blocks">{% trans 'Total Orders' %} <span>{{ orders }}</span></h3>
         <h3 class="blocks">{% trans "Today's Orders" %} <span>{{ orders_today }}</span></h3>
         <h3 class="blocks">{% trans "Average Order Price" %} <span>{{ avg_price }}$</span></h3>
