@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from django.db.models import Avg, Max, Min,Sum
+from rest_framework.decorators import api_view
 from datetime import datetime, timedelta,date
 # import json
 # import requests
