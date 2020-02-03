@@ -8,7 +8,7 @@ class ItemSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(use_url=False)
     class Meta:
         model = Item
-        fields = ['id', 'name', 'price', 'image', 'category', 'category_name']
+        fields = ['id', 'name', 'price', 'image', 'category', 'category_name','stock']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
