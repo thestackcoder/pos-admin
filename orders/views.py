@@ -72,10 +72,10 @@ def orders(request):
     #avg_price = round(avg_order_price.get('order_items__item__price__avg'),1)
     
     max_order_price = Order.objects.all().aggregate(Max("order_items__item__price"))
-    max_price = round(max_order_price.get('order_items__item__price__max'),1)
+    #max_price = round(max_order_price.get('order_items__item__price__max'),1)
     
     min_order_price = Order.objects.all().aggregate(Min("order_items__item__price"))
-    min_price = round(min_order_price.get('order_items__item__price__min'),1)
+    #min_price = round(min_order_price.get('order_items__item__price__min'),1)
     # last week order graph 
     # today = date.today()
     # print(today)
