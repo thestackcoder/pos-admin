@@ -110,28 +110,23 @@
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     const dayNames = [
-        "Sat", "Sun", "Mon", "Tue", "Wed", "Thu","Fri"
+         "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
         
     ];
     var d = new Date(); 
-    //var m1 = dayNames[d.getDay()-6];
-    //var m0 = dayNames[d.getDay()-5];
-    //var m2 = dayNames[d.getDay()-4];
-    var m3= dayNames[d.getDay()-3];
-    var m4 = dayNames[d.getDay()-2];
-    var m5 = dayNames[d.getDay()-1];
-    var m6 = dayNames[d.getDay()];
-    var m7 = dayNames[d.getDay()+1];
-    var m8 = dayNames[d.getDay()-5];
-    var m9 = dayNames[d.getDay()-4];
+    var today = dayNames[{{to_day}}];
+    var d6= dayNames[{{d__6}}];
+    var d5= dayNames[{{d__5}}];
+    var d4= dayNames[{{d__4}}];
+    var d3= dayNames[{{d__3}}];
+    var d2= dayNames[{{d__2}}];
+    var d1= dayNames[{{d__1}}];
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
         // The data for our dataset
         data: {
-            //labels = {{ days }};
-            //labels: ["{{days}}"],
-            labels: [m8, m9, m3, m4, m5, m6, m7,],
+            labels: [d6,d5,d4,d3,d2,d1,today],
             datasets: [{
                 label: 'Orders in last week',
                 backgroundColor: '#7B9BCB',
@@ -146,7 +141,7 @@
 
         // Configuration options go here
         options: {
-            
-        }
+              
+        },
     });
 </script>
