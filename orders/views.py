@@ -69,7 +69,7 @@ def orders(request):
     total_orders = Order.objects.count()
     
     avg_order_price = Order.objects.aggregate(Avg("order_items__item__price"))
-    avg_price = round(avg_order_price.get('order_items__item__price__avg'),1)
+    avg_price = avg_order_price.get('order_items__item__price__avg')
     new_avg_price = float(0)
     if avg_price:
         new_avg_price = avg_price
@@ -77,7 +77,7 @@ def orders(request):
         new_avg_price = float(0)
         
     max_order_price = Order.objects.aggregate(Max("order_items__item__price"))
-    max_price = round(max_order_price.get('order_items__item__price__max'),1)
+    max_price = max_order_price.get('order_items__item__price__max')
     new_max_price = float(0)
     if avg_price:
         new_max_price = max_price
@@ -85,7 +85,7 @@ def orders(request):
         new_max_price = float(0)
 
     min_order_price = Order.objects.aggregate(Min("order_items__item__price"))
-    min_price = round(min_order_price.get('order_items__item__price__min'),1)
+    min_price = min_order_price.get('order_items__item__price__min')
     new_min_price = float(0)
     if avg_price:
         new_min_price = min_price
