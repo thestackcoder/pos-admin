@@ -70,12 +70,28 @@ def orders(request):
     
     avg_order_price = Order.objects.aggregate(Avg("order_items__item__price"))
     avg_price = round(avg_order_price.get('order_items__item__price__avg'),1)
-    
+    new_avg_price = float(0)
+    if avg_price:
+        new_avg_price = avg_price
+    else:
+        new_avg_price = float(0)
+        
     max_order_price = Order.objects.aggregate(Max("order_items__item__price"))
     max_price = round(max_order_price.get('order_items__item__price__max'),1)
-    
+    new_max_price = float(0)
+    if avg_price:
+        new_max_price = max_price
+    else:
+        new_max_price = float(0)
+
     min_order_price = Order.objects.aggregate(Min("order_items__item__price"))
     min_price = round(min_order_price.get('order_items__item__price__min'),1)
+    new_min_price = float(0)
+    if avg_price:
+        new_min_price = min_price
+    else:
+        new_min_price = float(0)
+        
     # last week order graph 
     # today = date.today()
     # print(today)
@@ -146,9 +162,9 @@ def orders(request):
             'orders_6':orders_6,
             'all_orders': orders,
             'orders': total_orders,
-            'avg_price': avg_order_price,
-            'max_price': max_order_price,
-            'min_price': min_order_price,
+            'avg_price': new_avg_price,
+            'max_price': new_max_price,
+            'min_price': new_min_price,
             'orders_today': orders_today,
             'orders_monthly': orders_monthly,
             # 'orders_monthly_t': orders_monthly2,
