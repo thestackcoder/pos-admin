@@ -12,6 +12,11 @@ class Order(models.Model):
 
     def __str__(self):
         return self.datetime.strftime("%m/%d/%Y, %H:%M:%S")
+
+class Custom_item(models.Model):
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='custom_items', on_delete=models.CASCADE,blank=True, null=True)
     
 
 class Order_item(models.Model):

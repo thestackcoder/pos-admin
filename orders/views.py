@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from actors.models import User
 from items.models import Item
-from orders.models import Order,Order_detail,Order_item
-from orders.serializers import Order_detailSeriaizer,Order_itemSeriaizer,OrderSeriaizer
+from orders.models import Order,Order_detail,Order_item,Custom_item
+from orders.serializers import Order_detailSeriaizer,Order_itemSeriaizer,OrderSeriaizer,Custom_itemSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
@@ -62,6 +62,10 @@ class Order_detailViewSet(viewsets.ModelViewSet):
 class Order_itemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Order_item.objects.order_by('id')
     serializer_class = Order_itemSeriaizer    
+
+class Custom_itemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Custom_item.objects.order_by('id')
+    serializer_class = Custom_itemSerializer
 
 
 def orders(request):
