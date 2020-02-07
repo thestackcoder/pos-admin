@@ -1,9 +1,15 @@
 from django.shortcuts import render
 from actors.models import User
 from items.models import Item
-from orders.models import Order,Order_detail,Order_item,Custom_item
-from orders.serializers import Order_detailSeriaizer,Order_itemSeriaizer,OrderSeriaizer,Custom_itemSerializer
-from rest_framework import viewsets
+from orders.models import Order,Order_detail,Order_item,Custom_item,PoSystem
+from orders.serializers import (
+    Order_detailSeriaizer,
+    Order_itemSeriaizer,
+    OrderSeriaizer,
+    Custom_itemSerializer,
+    PoSystemSerializer
+)
+from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from django.db.models import Avg, Max, Min,Sum
@@ -21,6 +27,10 @@ from datetime import datetime, timedelta,date
 #         todo = gettodo(request)
 #         data = todo.json()
 #         return Response(data=data)
+
+class PosSystems(viewsets.ModelViewSet):
+    queryset = PoSystem.objects.all()
+    serializer_class = PoSystemSerializer
 
 class OrderViewSet(NestedViewSetMixin,viewsets.ModelViewSet):
     queryset = Order.objects.all().order_by('-datetime')

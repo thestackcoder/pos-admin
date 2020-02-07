@@ -1,9 +1,7 @@
 from rest_framework import serializers
 from actors.models import User,Customer
 from items.models import Item
-from orders.models import Order,Order_detail,Order_item, Custom_item
-
-
+from orders.models import Order,Order_detail,Order_item,Custom_item,PoSystem
 
 class Custom_itemSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -60,3 +58,8 @@ class Order_detailSeriaizer(serializers.ModelSerializer):
     class Meta:
         model = Order_detail
         fields = ['id','order_id','order_item_id',]
+
+class PoSystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PoSystem
+        fields = ['pos_id', 'petty_cash']

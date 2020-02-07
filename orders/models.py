@@ -31,3 +31,18 @@ class Order_item(models.Model):
 class Order_detail(models.Model):
     order_item_id = models.ForeignKey(Order_item, on_delete = models.CASCADE,)
     order_id = models.ForeignKey(Order, related_name='order', on_delete = models.CASCADE,)
+
+class PoSystem(models.Model):
+    pos_id = models.CharField(max_length=50, primary_key=True)
+    petty_cash = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return self.pos_id
+
+class BalanceCheck(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    petty = models.ForeignKey(PoSystem, on_delete=models.CASCADE)
+    starting_b = models.FloatField(blank=True, null=True)
+    ending_b = models.FloatField(blank=True, null=True)
+
+    
