@@ -91,14 +91,14 @@ class BalanceCheckDetail(APIView):
         bal = self.get_object(pk)
         serializer = BalanceCheckSerializer(bal, data=request.data)
         total_sales = 0
-        ending_bal = Order_item.objects.filter(datetime__range=['2020-02-10T07:42:52.021705Z', '2020-02-10T07:56:55.701531Z']).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
-        if ending_bal:
-            total_sale = 0
-            for employee in ending_bal:
-                total_sale = total_sale + (employee['quantity'] * employee['item__price'])
-            print(total_sale)
-        else:
-            total_sale = 0
+        # ending_bal = Order_item.objects.filter(datetime__range=['2020-02-10T07:42:52.021705Z', '2020-02-10T07:56:55.701531Z']).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
+        # if ending_bal:
+        #     total_sale = 0
+        #     for employee in ending_bal:
+        #         total_sale = total_sale + (employee['quantity'] * employee['item__price'])
+        #     print(total_sale)
+        # else:
+        #     total_sale = 0
 
         if serializer.is_valid():            
             serializer.validated_data['end_time'] = datetime.now()
