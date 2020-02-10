@@ -3,7 +3,15 @@ from rest_framework import routers
 import items.urls 
 import orders.urls 
 from items.views import ItemViewSet,CategoryViewSet,FavouriteViewSet,FavouriteItemViewSet
-from orders.views import Order_itemViewSet,OrderViewSet,Order_detailViewSet,updateStock,PosSystems
+from orders.views import (
+    Order_itemViewSet,
+    OrderViewSet,
+    Order_detailViewSet,
+    updateStock,    
+    PosSystems,
+    BalanceCheckAPIView,
+    BalanceCheckDetail
+)
 # TodoViewSet
 from actors.views import UserViewSet,CustomerViewSet, login
 import actors.urls
@@ -72,6 +80,8 @@ urlpatterns = [
     path('', include(user_orders_router.urls)),
     path('login/', login, name="login"),
     path('updateStock/', updateStock, name="updateStock"),
+    path('balance-check/', BalanceCheckAPIView.as_view(), name='balance-check'),
+    path('balance-check/<int:pk>/', BalanceCheckDetail.as_view()),
     # path('addfav/', addfav, name="addfav"),
 ]
 

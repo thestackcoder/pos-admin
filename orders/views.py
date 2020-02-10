@@ -1,20 +1,32 @@
 from django.shortcuts import render
 from actors.models import User
 from items.models import Item
-from orders.models import Order,Order_detail,Order_item,Custom_item,PoSystem
+from orders.models import (
+    Order,
+    Order_detail,
+    Order_item,
+    Custom_item,
+    PoSystem,
+    BalanceCheck
+)
 from orders.serializers import (
     Order_detailSeriaizer,
     Order_itemSeriaizer,
     OrderSeriaizer,
     Custom_itemSerializer,
-    PoSystemSerializer
+    PoSystemSerializer,
+    BalanceCheckSerializer
 )
 from rest_framework import viewsets, generics
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from django.db.models import Avg, Max, Min,Sum
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from datetime import datetime, timedelta,date
+from django.http import Http404
+import json
+from django.core import serializers
 # import json
 # import requests
 
@@ -27,6 +39,62 @@ from datetime import datetime, timedelta,date
 #         todo = gettodo(request)
 #         data = todo.json()
 #         return Response(data=data)
+
+
+class BalanceCheckAPIView(APIView):
+    def get_object(self, pk):
+        try:
+            return BalanceCheck.objects.get(pk=pk)
+        except BalanceCheck.DoesNotExist:
+            raise Http404
+            
+    def get(self, request):
+        bal = BalanceCheck.objects.all()
+        serializer = BalanceCheckSerializer(bal, many=True)
+        return Response(serializer.data)
+
+    def post(self,request):
+        id = request.data.get('id', None)
+        petty = request.data.get('petty')
+        petty_cash = PoSystem.objects.filter(pk=petty)
+        data = serializers.serialize('json', petty_cash)
+        x = json.loads(data)
+        y = x[0]["fields"]["petty_cash"]
+
+        if not id:
+            serializer = BalanceCheckSerializer(data=request.data)
+        else:
+            bal = BalanceCheck.objects.get(id=id)
+            serializer = BalanceCheckSerializer(bal, data=request.data)
+        
+        if(serializer.is_valid()):
+            serializer.validated_data['starting_b'] = y
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+class BalanceCheckDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return BalanceCheck.objects.get(pk=pk)
+        except BalanceCheck.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        bal = self.get_object(pk)
+        serializer = BalanceCheckSerializer(bal)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        bal = self.get_object(pk)
+        serializer = BalanceCheckSerializer(bal, data=request.data)
+        if serializer.is_valid():            
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
 
 class PosSystems(viewsets.ModelViewSet):
     queryset = PoSystem.objects.all()

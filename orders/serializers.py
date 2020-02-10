@@ -1,7 +1,14 @@
 from rest_framework import serializers
 from actors.models import User,Customer
 from items.models import Item
-from orders.models import Order,Order_detail,Order_item,Custom_item,PoSystem
+from orders.models import (
+    Order,
+    Order_detail,
+    Order_item,
+    Custom_item,
+    PoSystem,
+    BalanceCheck
+)
 
 class Custom_itemSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -63,3 +70,8 @@ class PoSystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = PoSystem
         fields = ['pos_id', 'petty_cash']
+
+class BalanceCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BalanceCheck
+        fields = ['id', 'user_id', 'petty', 'starting_b', 'ending_b', 'start_time', 'end_time']
