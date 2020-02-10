@@ -28,7 +28,7 @@ def get_employee_performance(request):
                 cashier = employee['order__user_id__username']
         else:
             total_sale = 0
-            cashier = User.objects.get(id=user)
+            cashier = User.objects.get(id=user) 
 
     elif e_report == 'weekly_report':
         weekly_employee = Order_item.objects.filter(datetime__range=[last_week, today]).filter(order__user_id=user).values('order__user_id__username','item__price','quantity').order_by('item__name')
