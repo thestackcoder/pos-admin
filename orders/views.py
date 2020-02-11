@@ -58,9 +58,9 @@ class BalanceCheckAPIView(APIView):
         id = request.data.get('id', None)
         petty = request.data.get('petty')
         petty_cash = PoSystem.objects.filter(pk=petty)
-        data = serializers.serialize('json', petty_cash)
-        x = json.loads(data)
-        y = x[0]["fields"]["petty_cash"]
+        # data = serializers.serialize('json', petty_cash)
+        # x = json.loads(data)
+        # y = x[0]["fields"]["petty_cash"]
 
         if not id:
             serializer = BalanceCheckSerializer(data=request.data)
@@ -69,7 +69,7 @@ class BalanceCheckAPIView(APIView):
             serializer = BalanceCheckSerializer(bal, data=request.data)
         
         if(serializer.is_valid()):
-            serializer.validated_data['starting_b'] = y
+            # serializer.validated_data['starting_b'] = 0
             serializer.save()
             return Response(serializer.data)
         else:
