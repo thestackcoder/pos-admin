@@ -27,6 +27,7 @@ from datetime import datetime, timedelta, date
 from django.utils import timezone
 from django.http import Http404
 import json
+from rest_framework import status
 from django.core import serializers
 # import json
 # import requests
@@ -47,9 +48,9 @@ class PosCheckAPIView(APIView):
         id = request.data.get('pos_id')
         obj = PoSystem.objects.filter(pk=id)
         if obj:
-            return Response({"detail": "Success!"})
+            return Response({"detail": "Success!", "status": status.HTTP_200_OK})
         else:
-            return Response({"detail": "POS doen not exists."})
+            return Response({"detail": "POS doen not exists.", "status": status.HTTP_404_NOT_FOUND})
 
 
 class BalanceCheckAPIView(APIView):
