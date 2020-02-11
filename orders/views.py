@@ -41,6 +41,16 @@ from django.core import serializers
 #         data = todo.json()
 #         return Response(data=data)
 
+class PosCheckAPIView(APIView):
+    
+    def post(self, request):
+        id = request.data.get('pos_id')
+        obj = PoSystem.objects.filter(pk=id)
+        if obj:
+            return Response({"detail": "Success!"})
+        else:
+            return Response({"detail": "POS doen not exists."})
+
 
 class BalanceCheckAPIView(APIView):
     def get_object(self, pk):
@@ -68,8 +78,11 @@ class BalanceCheckAPIView(APIView):
             bal = BalanceCheck.objects.get(id=id)
             serializer = BalanceCheckSerializer(bal, data=request.data)
         
+        pet = float(request.data.get('petty_cash'))
+        start = float(request.data.get('starting_b'))
+
         if(serializer.is_valid()):
-            serializer.validated_data['starting_b'] = 0
+            serializer.validated_data['ending_b'] = pet + start
             serializer.save()
             return Response(serializer.data)
         else:
@@ -103,15 +116,17 @@ class BalanceCheckDetail(APIView):
         else:
             total_sales = 0
 
-        petty_i = request.data.get('petty')
-        obj = PoSystem.objects.filter(pk=petty_i)
-        petty_c = serializers.serialize('json', obj)
-        x = json.loads(petty_c)
-        y = x[0]["fields"]["petty_cash"]
+        # petty_i = request.data.get('petty')
+        # obj = PoSystem.objects.filter(pk=petty_i)
+        # petty_c = serializers.serialize('json', obj)
+        # x = json.loads(petty_c)
+        # y = x[0]["fields"]["petty_cash"]
+        y = float(request.data.get('petty_cash'))
+        x = float(request.data.get('starting_b'))
 
         if serializer.is_valid():
             serializer.validated_data['end_time'] = timezone.now()
-            serializer.validated_data['ending_b'] = y + float(total_sales)
+            serializer.validated_data['ending_b'] = y + float(total_sales) + x
             serializer.validated_data['earnings'] = total_sales
 
             serializer.save()

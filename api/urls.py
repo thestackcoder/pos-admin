@@ -10,7 +10,8 @@ from orders.views import (
     updateStock,    
     PosSystems,
     BalanceCheckAPIView,
-    BalanceCheckDetail
+    BalanceCheckDetail,
+    PosCheckAPIView
 )
 # TodoViewSet
 from actors.views import UserViewSet,CustomerViewSet, login
@@ -82,6 +83,8 @@ urlpatterns = [
     path('updateStock/', updateStock, name="updateStock"),
     path('balance-check/', BalanceCheckAPIView.as_view(), name='balance-check'),
     path('balance-check/<int:pk>/', BalanceCheckDetail.as_view()),
+    path('pos-check/', PosCheckAPIView.as_view()),
+
     # path('addfav/', addfav, name="addfav"),
 ]
 

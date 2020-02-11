@@ -41,7 +41,9 @@ class PoSystem(models.Model):
 
 class BalanceCheck(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    petty = models.ForeignKey(PoSystem, related_name="balance", on_delete=models.CASCADE)
+    # petty = models.ForeignKey(PoSystem, related_name="balance", on_delete=models.CASCADE)
+    pos_id = models.CharField(max_length=50)
+    petty_cash = models.FloatField(blank=True, null=True)
     start_time = models.DateTimeField(auto_now_add=True)
     starting_b = models.FloatField(blank=True, null=True)
     earnings = models.FloatField(blank=True, null=True)
