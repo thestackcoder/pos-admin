@@ -69,7 +69,7 @@ class BalanceCheckAPIView(APIView):
             serializer = BalanceCheckSerializer(bal, data=request.data)
         
         if(serializer.is_valid()):
-            # serializer.validated_data['starting_b'] = 0
+            serializer.validated_data['starting_b'] = 0
             serializer.save()
             return Response(serializer.data)
         else:
@@ -92,7 +92,7 @@ class BalanceCheckDetail(APIView):
         bal = self.get_object(pk)
         serializer = BalanceCheckSerializer(bal, data=request.data)
         
-        last_week = timezone.now() - timedelta(days=8)
+        last_week = timezone.now() - timedelta(days=1)
         now = timezone.now()
 
         total_sales = 0
