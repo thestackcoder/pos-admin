@@ -23,7 +23,8 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 from django.db.models import Avg, Max, Min,Sum
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from datetime import datetime, timedelta,date
+from datetime import datetime, timedelta, date
+from django.utils import timezone
 from django.http import Http404
 import json
 from django.core import serializers
@@ -90,18 +91,29 @@ class BalanceCheckDetail(APIView):
     def put(self, request, pk, format=None):
         bal = self.get_object(pk)
         serializer = BalanceCheckSerializer(bal, data=request.data)
-        total_sales = 0
-        # ending_bal = Order_item.objects.filter(datetime__range=['2020-02-10T07:42:52.021705Z', '2020-02-10T07:56:55.701531Z']).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
-        # if ending_bal:
-        #     total_sale = 0
-        #     for employee in ending_bal:
-        #         total_sale = total_sale + (employee['quantity'] * employee['item__price'])
-        #     print(total_sale)
-        # else:
-        #     total_sale = 0
+        
+        last_week = timezone.now() - timedelta(days=8)
+        now = timezone.now()
 
-        if serializer.is_valid():            
-            serializer.validated_data['end_time'] = datetime.now()
+        total_sales = 0
+        ending_bal = Order_item.objects.filter(datetime__range=[last_week, now]).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
+        if ending_bal:
+            for e in ending_bal:
+                total_sales = total_sales + (e['quantity'] * e['item__price'])
+        else:
+            total_sales = 0
+
+        petty_i = request.data.get('petty')
+        obj = PoSystem.objects.filter(pk=petty_i)
+        petty_c = serializers.serialize('json', obj)
+        x = json.loads(petty_c)
+        y = x[0]["fields"]["petty_cash"]
+
+        if serializer.is_valid():
+            serializer.validated_data['end_time'] = timezone.now()
+            serializer.validated_data['ending_b'] = y + float(total_sales)
+            serializer.validated_data['earnings'] = total_sales
+
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
@@ -150,7 +162,7 @@ class Order_detailViewSet(viewsets.ModelViewSet):
 
 class Order_itemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Order_item.objects.order_by('id')
-    serializer_class = Order_itemSeriaizer    
+    serializer_class = Order_itemSeriaizer
 
 class Custom_itemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = Custom_item.objects.order_by('id')

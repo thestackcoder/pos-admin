@@ -72,6 +72,10 @@ class PoSystemSerializer(serializers.ModelSerializer):
         fields = ['pos_id', 'petty_cash']
 
 class BalanceCheckSerializer(serializers.ModelSerializer):
+    start_time = serializers.DateTimeField(format="%b %d, %Y %H:%M:%S %p", read_only=True)
+    end_time = serializers.DateTimeField(format="%b %d, %Y %H:%M:%S %p", read_only=True)
+    petty_cash = serializers.FloatField(source='petty.petty_cash', required=False)
+
     class Meta:
         model = BalanceCheck
-        fields = ['id', 'user_id', 'petty', 'starting_b', 'ending_b', 'start_time', 'end_time']
+        fields = ['id', 'user_id', 'petty', 'petty_cash', 'starting_b', 'ending_b', 'earnings', 'start_time', 'end_time']

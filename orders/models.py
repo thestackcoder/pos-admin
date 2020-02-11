@@ -41,8 +41,9 @@ class PoSystem(models.Model):
 
 class BalanceCheck(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    petty = models.ForeignKey(PoSystem, on_delete=models.CASCADE)
+    petty = models.ForeignKey(PoSystem, related_name="balance", on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
     starting_b = models.FloatField(blank=True, null=True)
+    earnings = models.FloatField(blank=True, null=True)
     ending_b = models.FloatField(blank=True, null=True)
     end_time = models.DateTimeField(auto_now_add=False, null=True, blank=True)
