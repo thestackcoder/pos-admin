@@ -48,7 +48,7 @@ class PosCheckAPIView(APIView):
         id = request.data.get('pos_id')
         obj = PoSystem.objects.filter(pk=id)
         if obj:
-            return Response({"detail": "Success!", "status": status.HTTP_200_OK})
+            return Response({"detail": "Success!", "pos_id": id, "status": status.HTTP_200_OK})
         else:
             return Response({"detail": "POS doen not exists.", "status": status.HTTP_404_NOT_FOUND})
 
