@@ -93,7 +93,8 @@ class BalanceCheckDetail(APIView):
 
     def get_object(self, pk):
         try:
-            return BalanceCheck.objects.get(pk=pk)
+            obj = BalanceCheck.objects.get(pk=pk)
+            return obj 
         except BalanceCheck.DoesNotExist:
             raise Http404
 
@@ -106,11 +107,11 @@ class BalanceCheckDetail(APIView):
         bal = self.get_object(pk)
         serializer = BalanceCheckSerializer(bal, data=request.data)
         
-        last_week = timezone.now() - timedelta(days=1)
+        start = bal.start_time
         now = timezone.now()
 
         total_sales = 0
-        ending_bal = Order_item.objects.filter(datetime__range=[last_week, now]).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
+        ending_bal = Order_item.objects.filter(datetime__range=[start, now]).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
         if ending_bal:
             for e in ending_bal:
                 total_sales = total_sales + (e['quantity'] * e['item__price'])
