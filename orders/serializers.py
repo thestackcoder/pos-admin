@@ -11,6 +11,8 @@ from orders.models import (
 )
 from django.db.models import Avg, Max, Min,Sum
 from rest_framework.response import Response
+import json
+
 
 class Custom_itemSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -45,7 +47,21 @@ class OrderSeriaizer(serializers.ModelSerializer):
             Order_item.objects.create(order=order, **order_item)
         for custom_item in custom_items:
             Custom_item.objects.create(order=order, **custom_item)
-        # updateStock()
+        items = order.order_items.all()
+        # print(items)
+        # print(items[0].item_id)
+        # print(items[0].quantity)
+        for item in items:
+            # print(item)
+            stock_obj = Item.objects.values('stock').filter(pk=item.item_id)
+            stock = 0
+            temp = 0
+            for s in stock_obj:
+                temp = s['stock']
+            stock = temp
+            u_stock = stock - item.quantity
+            Item.objects.filter(pk=item.item_id).update(stock=u_stock)
+            
         return order
 
 
@@ -83,29 +99,3 @@ class BalanceCheckSerializer(serializers.ModelSerializer):
         model = BalanceCheck
         fields = ['id', 'user_id', 'pos_id', 'petty_cash', 'starting_b', 'ending_b', 'earnings', 'start_time', 'end_time']
 
-
-def updateStock():
-    items_count = Order_item.objects.values('item__name').annotate(Sum('quantity')).order_by('item__name')
-    myStockList1 = []
-    myStockList2 = []
-    mySoldList1 = []
-    mySoldList2 = []
-    stockItems = Item.objects.all().order_by('name')
-    for data in stockItems:
-        myStockList1.append(data.name)
-        myStockList2.append(data.stock)
-    stockDictionary = dict(zip(myStockList1, myStockList2))
-    # print("Stock items ",stockDictionary)
-    orderData = Order.objects.last()
-    # print(orderData)
-    orderItem = Order_item.objects.filter(order=orderData)
-    for items in orderItem:
-        # print(items.item.name,items.quantity)
-        mySoldList1.append(items.item.name)
-        mySoldList2.append(items.quantity)
-    soldDictionary = dict(zip(mySoldList1, mySoldList2))
-    for total in stockDictionary:
-        if total in soldDictionary:
-            totalRemainingStock = stockDictionary[total] - soldDictionary[total]
-            # print("Remaining Items",total, "=", totalRemainingStock)
-            Item.objects.filter(name=total).update(stock=totalRemainingStock)

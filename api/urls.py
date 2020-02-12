@@ -80,7 +80,7 @@ urlpatterns = [
     path('', include(favourite_item_router.urls)), 
     path('', include(user_orders_router.urls)),
     path('login/', login, name="login"),
-    path('updateStock/', updateStock, name="updateStock"),
+    # path('updateStock/', updateStock, name="updateStock"),
     path('balance-check/', BalanceCheckAPIView.as_view(), name='balance-check'),
     path('balance-check/<int:pk>/', BalanceCheckDetail.as_view()),
     path('pos-check/', PosCheckAPIView.as_view()),
