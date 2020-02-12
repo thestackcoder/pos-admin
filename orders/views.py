@@ -26,9 +26,10 @@ from rest_framework.views import APIView
 from datetime import datetime, timedelta, date
 from django.utils import timezone
 from django.http import Http404
-import json
 from rest_framework import status
 from django.core import serializers
+from rest_framework.decorators import action
+import json
 # import json
 # import requests
 
@@ -106,17 +107,25 @@ class BalanceCheckDetail(APIView):
     def put(self, request, pk, format=None):
         bal = self.get_object(pk)
         serializer = BalanceCheckSerializer(bal, data=request.data)
-        
+        # last_week = datetime.now() - timedelta(hours=2)
+        # last_month = datetime.now() - timedelta(hours=30)  
         start = bal.start_time
-        now = timezone.now()
+        # print(start)
+        now = datetime.now()
+        # user = bal.user_id
+        # today = date.today()
 
+        # print(user)
         total_sales = 0
-        ending_bal = Order_item.objects.filter(datetime__range=[start, now]).filter(order__user_id=1).values('order__user_id__username','item__price','quantity')
-        if ending_bal:
+        ending_bal = Order_item.objects.filter(datetime__range=[start, now]).filter(order__user_id=user).values('item__price','quantity')
+        print(ending_bal)
+        if ending_bal:  
             for e in ending_bal:
                 total_sales = total_sales + (e['quantity'] * e['item__price'])
         else:
             total_sales = 0
+        
+        # print(total_sales)
 
         # petty_i = request.data.get('petty')
         # obj = PoSystem.objects.filter(pk=petty_i)
@@ -126,11 +135,12 @@ class BalanceCheckDetail(APIView):
         y = float(request.data.get('petty_cash'))
         x = float(request.data.get('starting_b'))
 
+
         if serializer.is_valid():
             serializer.validated_data['end_time'] = timezone.now()
             serializer.validated_data['ending_b'] = y + float(total_sales) + x
             serializer.validated_data['earnings'] = total_sales
-
+            total_sales = 0
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
