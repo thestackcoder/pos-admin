@@ -65,12 +65,13 @@
     <h1> {% trans 'POS Dashboard' %}</h1>
     {% block 'data-blocks' %}
     <div class="block-row">
+        <a style="text-decoration:none;" href="/admin/orders/posystem/add/"><h3 class="blocks">{% trans "Click here to add Systems" %} <span>POS Systems</span></h3></a>
         <h3 class="blocks">{% trans 'Users' %} <span>{{ user_count }}</span></h3>
         <h3 class="blocks">{% trans 'Orders' %} <span>{{ order_count }}</span></h3>
         <h3 class="blocks">{% trans 'Customers' %} <span>{{ customers_count }}</span></h3>
         <h3 class="blocks">{% trans 'Total Sales' %} <span>{{ sales }} $</span></h3>
         {% comment %} <h3 class="blocks">{% trans 'Purchase' %}  <span>5500 $</span></h3> {% endcomment %}
-        <h3 class="blocks">{% trans "Today's Sales" %}  <span>465 $</span></h3>
+        <h3 class="blocks">{% trans "Today's Sales" %}</h3>
     </div>
     {% endblock %}
 
@@ -122,7 +123,6 @@
                 {% endif %}
             </div>
         </div>
-
          <div class="menu-section">
             <h1>{% trans 'Item Menu List' %}</h1> 
             <table> 
@@ -135,7 +135,9 @@
                 </tr>
                 {% endfor %}
             </table>
+
         </div>
+
     </div>
 
 

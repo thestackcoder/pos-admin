@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order
+from .models import Order, PoSystem, BalanceCheck
 from django.contrib.auth.models import Group
 
 class OrderAdmin(admin.ModelAdmin):
@@ -7,6 +7,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['datetime']
     # search_fields = ['customer']
 
-
 admin.site.register(Order, OrderAdmin)
 admin.site.unregister(Group)
+admin.site.register(PoSystem)
+admin.site.register(BalanceCheck)

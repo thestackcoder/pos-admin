@@ -70,7 +70,7 @@
         {% comment %}<a href="/admin/orders/order/"><h3 id="manage-panel" class="blocks">Order Mangement Panel<span>(Click to Manage all the orders)</span></h3></a>{% endcomment %}
         <h3 class="blocks">{% trans 'Total Orders' %} <span>{{ orders }}</span></h3>
         <h3 class="blocks">{% trans "Today's Orders" %} <span>{{ orders_today }}</span></h3>
-        <h3 class="blocks">{% trans "Average Order Price" %} <span>{{ avg_price }}$</span></h3>
+        <h3 class="blocks">{% trans "Average Order Price" %} <span>{{ avg_price|floatformat:2 }}$</span></h3>
         <h3 class="blocks">{% trans "Highest Order" %} <span>{{ max_price }}$</span></h3>
         <h3 class="blocks">{% trans "Minimum Order" %} <span>{{ min_price }}$</span></h3>
     </div>
