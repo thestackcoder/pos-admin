@@ -112,7 +112,7 @@ class BalanceCheckDetail(APIView):
         start = bal.start_time
         # print(start)
         now = datetime.now()
-        # user = bal.user_id
+        user = bal.user_id
         # today = date.today()
 
         # print(user)
